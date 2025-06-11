@@ -1,0 +1,30 @@
+.product-card {
+  width: 250px;
+  height: 90px;
+  border-radius: 8px;
+  /* transition: transform 0.2s ease-in-out; */
+}
+
+.product-card:hover {
+  transform: scale(1.01);
+}
+
+
+.discount-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ffd700;
+  color: #000;
+  font-weight: bold;
+  padding: 4px 10px;
+  border-bottom-right-radius: 8px;
+  font-size: 0.75rem;
+  z-index: 100;
+}
+
+.product-image img {
+  max-height: 180px;
+  width: auto;
+  object-fit: contain;
+}

@@ -1,0 +1,60 @@
+<!-- <div class="mx-4">
+  <h2 *ngIf="productDetails != undefined">{{productDetails.category | titlecase}}</h2>
+  <div
+    [ngClass]="{'d-flex overflow-auto flex-nowrap gap-3 py-2': isHorizontal,'row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4': !isHorizontal}"
+    class="product-list hide-scrollbar col-lg-12">
+    <div *ngFor="let product of filteredProducts" [ngClass]="{'flex-shrink-0': isHorizontal, 'col': !isHorizontal}"
+      style="width: 250px;" class="product-item">
+      <app-productcard [product]="product" (selected)="productClicked($event)"></app-productcard>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="mx-4">
+  <h2 *ngIf="productDetails != undefined">{{ productDetails.category | titlecase }}</h2>
+
+  <div class="position-relative product-slider-container align-items-center">
+    <button (click)="prevPage()" class="btn position-absolute top-50 start-0 translate-middle-y slider-nav-btn" *ngIf="filteredProducts.length > itemsPerPage">
+        <i class="bi bi-arrow-left-square-fill" style="font-size: 2rem;"></i>
+    </button>
+    <div class="d-flex gap-3 py-2 product-list justify-content-between">
+      <div *ngFor="let product of displayedProducts()" class="product-item flex-shrink-0" style="width: 250px;">
+        <app-productcard [product]="product" (selected)="productClicked($event)"></app-productcard>
+      </div>
+    </div>
+    <button (click)="nextPage()" class="btn position-absolute top-50 end-0 translate-middle-y slider-nav-btn" *ngIf="filteredProducts.length > itemsPerPage">
+        <i class="bi bi-arrow-right-square-fill" style="font-size: 2rem;"></i>
+    </button>
+    
+  </div>
+</div> -->
+
+<div class="mx-4">
+  <h2 class="mb-4" *ngIf="productDetails">{{ productDetails.category | titlecase }}</h2>
+
+  <!-- Carousel -->
+  <div id="productCarousel" class="slide p-2" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="hover">
+    <div class="container mx-2" *ngIf="isHorizontal">
+      <!-- Scroll wrapper with hover pause -->
+      <div class="position-relative" (mouseenter)="pause = true" (mouseleave)="pause = false || !isHorizontal">
+        <div class="d-flex scroll-track" [class.paused]="pause">
+          <div class="product-item me-3" *ngFor="let product of groupedProducts()">
+            <app-productcard [product]="product" (selected)="productClicked($event)"></app-productcard>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="!isHorizontal" class="product-list row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+      <div *ngFor="let product of filteredProducts" class="product-item col p-4" style="">
+        <app-productcard [product]="product" (selected)="productClicked($event)"></app-productcard>
+      </div>
+    </div>
+    <!-- <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button> -->
+  </div>
+</div>

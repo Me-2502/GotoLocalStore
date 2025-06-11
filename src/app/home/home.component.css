@@ -1,0 +1,29 @@
+div {
+    padding: 1%;
+}
+
+.banner {
+    max-height: 300px;
+    overflow: hidden;
+}
+
+.banner-image {
+    object-fit: cover;
+    height: 100%;
+    max-height: 300px;
+}
+
+.banner-content {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.recommendations{
+    width: fit-content;
+    margin-inline: auto;
+}
+
+a{
+    cursor: pointer;
+}

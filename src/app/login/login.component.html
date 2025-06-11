@@ -1,0 +1,87 @@
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="card shadow border-0 rounded-4 overflow-hidden w-100" style="max-width: 900px;">
+        <div class="row g-0">
+            <!-- Left: Login Form -->
+            <div class="col-md-6 p-5 bg-white">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-primary">Local Store</h2>
+                    <p class="text-muted">Welcome back! Please log in to your account</p>
+                </div>
+
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" id="email" name="email" placeholder="E-mail" class="form-control"
+                            [formControlName]="'email'" />
+                        <div class="text-danger small"
+                            *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                            *E-mail is required
+                        </div>
+                    </div>
+
+                    <div class="text-center my-2 text-muted">-- OR --</div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Phone number" class="form-control"
+                            [formControlName]="'phone'" />
+                        <div class="text-danger small"
+                            *ngIf="loginForm.get('phone')?.invalid && loginForm.get('phone')?.touched">
+                            *Phone number is required
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password" class="form-control"
+                            [formControlName]="'password'" />
+                        <div class="text-danger small"
+                            *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                            *Password is required
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary" [disabled]="loginForm.get('password')?.invalid ||
+                  (
+                    (loginForm.get('email')?.valid && loginForm.get('phone')?.valid) ||
+                    (!loginForm.get('email')?.valid && !loginForm.get('phone')?.valid)
+                  )">
+                            Login
+                        </button>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="text-center my-3 text-muted">-- OR --</div>
+
+                    <!-- Create Account -->
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-outline-secondary" (click)="signup()">Create
+                            Account</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right: Info / Illustration -->
+            <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center bg-light-subtle p-4">
+                <div class="text-center px-3">
+                    <h4 class="text-primary">Welcome to Local Store</h4>
+                    <p class="text-muted">Your one-stop shop for everything you need. Shop smarter, live better.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Overlay -->
+    <div *ngIf="failedLoginPopup"
+        class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50 z-3">
+        <div class="bg-white p-4 rounded shadow text-center" style="max-width: 400px; width: 90%;">
+            <h5>User with given credentials not found.</h5>
+            <button class="btn btn-outline-danger mt-3" (click)="toggleFailedLoginPopup()">Ok</button>
+        </div>
+    </div>
+</div>

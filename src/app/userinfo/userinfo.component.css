@@ -1,0 +1,33 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1050;
+}
+
+.popup-container {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    min-width: 300px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.card-body:hover {
+    transform: scale(1.02);
+}
+
+.text-hover-white:hover{
+    color: white !important;
+}

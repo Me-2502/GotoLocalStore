@@ -1,0 +1,40 @@
+<div class="p-0 bg-white">
+  <!-- Banner Section -->
+  <div class="container-fluid bg-light py-4">
+    <div class="row align-items-center">
+      <!-- Text Section -->
+      <div class="col-md-5 text-center text-md-start px-5">
+        <h1 class="display-5 fw-bold text-success">
+          Your Neighborhood Store, <br />
+          <span class="text-primary">Now Online!</span>
+        </h1>
+        <p class="lead mt-3 text-muted">
+          Fresh groceries, daily essentials, and local flavors — delivered to your doorstep.
+        </p>
+        <a class="btn btn-success btn-lg mt-3">Shop Now</a>
+      </div>
+
+      <div class="col-md-7 text-center px-2">
+        <img src="assets/banner1.jpg" alt="Store Banner" class="img-fluid rounded shadow w-75 h-50" />
+      </div>
+    </div>
+  </div>
+
+  <app-search></app-search>
+
+  <div class="container my-2">
+    <div class="d-flex overflow-auto gap-2 justify-content-center">
+      <ng-container *ngFor="let rec of recommendations">
+        <button class="btn btn-outline-secondary btn-sm flex-shrink-0 border-0">
+          {{ rec | titlecase }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="w-75 mb-5 mx-auto">
+    <div *ngFor="let item of recommendations" class="mb-4 rounded">
+      <app-productlist [productDetails]="{ category: item }"></app-productlist>
+    </div>
+  </div>
+</div>

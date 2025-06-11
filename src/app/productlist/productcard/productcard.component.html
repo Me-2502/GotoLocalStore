@@ -1,0 +1,24 @@
+<div class="card product-card h-100 shadow-sm position-relative" (click)="showDetails()">
+
+  <div *ngIf="hasDiscount()" class="discount-tag">
+    {{ product.discount }}% OFF
+  </div>
+
+  <div class="card-body product-image text-center py-0 shadow-sm" style="height: 170px;">
+    <img [src]="product.imgUrl" [alt]="product.name + ' image'" class="img-fluid my-auto rounded" style="margin-top: 5px; width: 180px; height: 160px; object-fit: contain;" />
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title mb-1">{{ product.name }}</h5>
+    <h6 class="text-muted mb-2">{{ product.brand }}</h6>
+    <p class="card-text mb-1">Price: <strong>₹{{ product.price }}</strong></p>
+    <small class="card-text mb-1"
+      [ngClass]="{'text-success': product.available, 'text-danger': !product.available}">
+      {{ product.available ? 'Available' : 'Not Available' }}
+    </small>
+    <br>
+    <small class="card-text mb-1">In Stock: {{ product.inStock }}</small>
+    <br>
+    <small class="card-text mb-0">Category: {{ product.category }}</small>
+  </div>
+</div>

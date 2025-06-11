@@ -1,0 +1,68 @@
+<div class="card p-3 filter-sidebar">
+    <h5 class="mb-3">Filters</h5>
+
+    <!-- Search -->
+    <div class="mb-4">
+        <label class="form-label fw-semibold">Search</label>
+        <input type="text" class="form-control" [(ngModel)]="filters.searchText" placeholder="Search by name" />
+    </div>
+
+    <!-- Category Checklist -->
+    <div class="mb-4" *ngIf="categories.length > 0">
+        <label class="form-label fw-semibold">Category</label>
+        <div class="overflow-auto" style="max-height: 150px;">
+            <div *ngFor="let cat of categories" class="form-check">
+                <input class="form-check-input" type="checkbox" [checked]="filters.category?.includes(cat)"
+                (change)="toggleCategory(cat, $event)" id="cat-{{ cat }}" />
+                <label class="form-check-label" for="cat-{{ cat }}">{{ cat }}</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Brand Checklist -->
+    <div class="mb-4">
+        <label class="form-label fw-semibold">Brand</label>
+        <div class="overflow-auto" style="max-height: 150px;">
+            <div *ngFor="let brand of brands" class="form-check">
+                <input class="form-check-input" type="checkbox" [checked]="filters.brand?.includes(brand)"
+                (change)="toggleBrand(brand, $event)" id="brand-{{ brand }}" />
+                <label class="form-check-label" for="brand-{{ brand }}">{{ brand }}</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Price Range -->
+    <div class="mb-4">
+        <label class="form-label fw-semibold">Price Range</label>
+        <div class="d-flex gap-2">
+            <input type="number" class="form-control" placeholder="Min" [(ngModel)]="filters.minPrice" />
+            <input type="number" class="form-control" placeholder="Max" [(ngModel)]="filters.maxPrice" />
+        </div>
+    </div>
+
+    <!-- Availability -->
+    <div class="mb-4">
+        <label class="form-label fw-semibold">Availability</label>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="availability" value="" [(ngModel)]="filters.availability"
+                id="availAll" />
+            <label class="form-check-label" for="availAll">All</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="availability" value="true"
+                [(ngModel)]="filters.availability" id="availInStock" />
+            <label class="form-check-label" for="availInStock">In Stock</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="availability" value="false"
+                [(ngModel)]="filters.availability" id="availOutStock" />
+            <label class="form-check-label" for="availOutStock">Out of Stock</label>
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="d-flex gap-2 mt-4">
+        <button class="btn btn-primary flex-fill" (click)="applyFilters()">Apply</button>
+        <button class="btn btn-outline-secondary flex-fill" (click)="resetFilters()">Reset</button>
+    </div>
+</div>

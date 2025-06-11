@@ -1,0 +1,87 @@
+<div class="container-fluid min-vh-100 d-flex align-items-center justify-content-center bg-light">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden w-100" style="max-width: 900px;">
+        <div class="row g-0">
+            <!-- Left: Signup Form -->
+            <div class="col-md-6 p-5 bg-white">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-success">Create Account</h2>
+                    <p class="text-muted">Join us and start shopping smarter!</p>
+                </div>
+
+                <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+                    <!-- Name -->
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Name"
+                            [formControlName]="'name'" />
+                        <div class="text-danger small"
+                            *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+                            *Name is required
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="E-mail"
+                            [formControlName]="'email'" />
+                        <div class="text-danger small"
+                            *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+                            *Valid email is required
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="Phone number"
+                            [formControlName]="'phone'" />
+                        <div class="text-danger small"
+                            *ngIf="signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched">
+                            *Phone number is required
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                            [formControlName]="'password'" />
+                        <div class="text-danger small"
+                            *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+                            *Password is required
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-success" [disabled]="signupForm.invalid">Sign Up</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">Cancel</button>
+                    </div>
+
+                    <!-- Back to Login -->
+                    <div class="text-center mt-3">
+                        <button type="button" class="btn btn-link" (click)="login()">← Back to Login</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Right: Illustration / Info -->
+            <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center bg-light-subtle p-4">
+                <div class="text-center px-3">
+                    <h4 class="text-success">Welcome to Local Store</h4>
+                    <p class="text-muted">Create an account and enjoy a seamless shopping experience.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup Overlay -->
+    <div *ngIf="failedSignupPopup"
+        class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50 z-3">
+        <div class="bg-white p-4 rounded shadow text-center" style="max-width: 400px; width: 90%;">
+            <h5>User already exists with given email or phone number.</h5>
+            <button class="btn btn-outline-danger mt-3" (click)="toggleFailedSignupPopup()">Ok</button>
+        </div>
+    </div>
+</div>

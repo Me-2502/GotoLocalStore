@@ -1,0 +1,79 @@
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+
+.hide-scrollbar:hover {
+  scrollbar-width: auto;
+}
+
+.product-list {
+  display: flex;
+  gap: 2rem;
+}
+
+.product-item {
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.btn-link {
+  color: #007bff;
+  font-size: 2rem;
+  transition: color 0.2s ease;
+}
+
+.btn-link:hover {
+  color: #0056b3;
+}
+
+.product-slider-container {
+  overflow: hidden;
+}
+
+.slider-nav-btn {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.product-slider-container:hover .slider-nav-btn {
+  opacity: 1;
+}
+
+/* Animate from left to right */
+.scroll-track {
+  animation: scroll-horizontal 30s linear infinite;
+  width: max-content;
+  height: fit-content;
+  padding-top: auto;
+  padding-bottom: 0px;
+}
+
+.scroll-track.paused {
+  animation-play-state: paused;
+}
+
+.product-item {
+  flex: 0 0 auto;
+  width: 250px;
+}
+
+/* Animation to scroll right to left (reverse if needed) */
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
