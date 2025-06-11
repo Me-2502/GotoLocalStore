@@ -1,8 +1,8 @@
 <app-search></app-search>
-<div style="height: 100vh;">
+<div style="min-height: 100vh;">
 
     <div class="container my-4">
-        <h2 class="mb-4 text-primary fw-bold">Shopping Cart ({{ service.cartProducts.length }} items)</h2>
+        <h2 class="mb-4 text-primary fw-bold">Shopping Cart ({{ service.cartProducts.length }})</h2>
 
         <div *ngIf="service.cartProducts.length > 0; else emptyCart">
             <div class="row g-2">
@@ -16,8 +16,7 @@
 
                             <p class="mt-2 mb-1 fs-5 text-danger fw-bold">
                                 ₹{{ (item.price - (item.price * (item.discount ?? 0) / 100)).toFixed(2) }}
-                                <span class="text-muted text-decoration-line-through ms-2"
-                                    *ngIf="item.discount && item.discount > 0">
+                                <span class="text-muted text-decoration-line-through ms-2" *ngIf="item.discount && item.discount > 0">
                                     ₹{{ item.price.toFixed(2) }}
                                 </span>
                                 <span class="badge bg-success ms-2" *ngIf="item.discount && item.discount > 0">
@@ -48,10 +47,33 @@
         </div>
 
         <!-- Summary and checkout -->
-        <div class="mt-4 text-end">
-            <h5>Total: <span class="text-primary fw-bold">₹{{ service.totalPrice.toFixed(2) }}</span></h5>
-            <button class="btn btn-success px-4 mt-3" (click)="makePayment()" *ngIf="!service.checkout">Proceed to Checkout</button>
-        </div>
+<div class="mt-4 text-end">
+    <h4 class="mb-3 text-end">Order Summary</h4>
+  
+    <div class="table-responsive ms-auto me-0">
+      <table class="table w-25">
+        <tbody>
+          <tr>
+            <th scope="row">Subtotal</th>
+            <td class="text-end">₹{{ service.totalPrice.toFixed(2) }}</td>
+          </tr>
+          <tr>
+            <th scope="row">Shipping Charge</th>
+            <td class="text-end">₹{{ service.shippingCharge.toFixed(2) || '50.00' }}</td>
+          </tr>
+          <tr class="table-light fw-bold">
+            <th scope="row">Grand Total</th>
+            <td class="text-end text-primary">₹{{ (service.totalPrice + (service.shippingCharge)).toFixed(2) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <div class="text-end">
+      <button class="btn btn-success px-4 mt-3" (click)="makePayment()" *ngIf="!service.checkout">Proceed to Checkout</button>
+    </div>
+  </div>
+  
     </div>
 
     <ng-template #emptyCart>

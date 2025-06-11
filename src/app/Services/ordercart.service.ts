@@ -16,6 +16,7 @@ export class OrdercartService {
   user: User = JSON.parse(localStorage.getItem('prevUser') as string);
   totalPrice = 0;
   checkout = false;
+  shippingCharge = 20;
 
   constructor(private router: Router) { }
 

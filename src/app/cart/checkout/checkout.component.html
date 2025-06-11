@@ -15,20 +15,11 @@
 
         <div class="mb-3">
             <label for="address" class="form-label fw-semibold">Delivery Address</label>
-            <textarea id="address" formControlName="address" rows="3" class="form-control" [ngClass]="{
-            'is-invalid':
-              checkoutForm.get('address')?.touched &&
-              checkoutForm.get('address')?.invalid
-          }"></textarea>
-            <div *ngIf="
-            checkoutForm.get('address')?.touched &&
-            checkoutForm.get('address')?.invalid
-          " class="invalid-feedback">
+            <textarea id="address" formControlName="address" rows="3" class="form-control" [ngClass]="{ 'is-invalid': checkoutForm.get('address')?.touched && checkoutForm.get('address')?.invalid }"></textarea>
+            <div *ngIf="checkoutForm.get('address')?.touched && checkoutForm.get('address')?.invalid" class="invalid-feedback">
                 Address is required.
             </div>
-            <button *ngIf="user?.address" type="button" class="btn btn-outline-primary mt-2" (click)="setAddress()">
-                Use your address
-            </button>
+            <button *ngIf="user?.address" type="button" class="btn btn-outline-primary mt-2" (click)="setAddress()">Use your address</button>
         </div>
 
         <div class="row mb-4">
@@ -97,15 +88,8 @@
                         <div class="mb-3">
                             <label for="expiry" class="form-label fw-semibold">Expiry Date (MM/YY)</label>
                             <input id="expiry" formControlName="expiry" type="text" placeholder="MM/YY"
-                                class="form-control" [ngClass]="{
-                    'is-invalid':
-                      paymentForm.get('expiry')?.touched &&
-                      paymentForm.get('expiry')?.invalid
-                  }" />
-                            <div *ngIf="
-                    paymentForm.get('expiry')?.touched &&
-                    paymentForm.get('expiry')?.invalid
-                  " class="invalid-feedback">
+                                class="form-control" [ngClass]="{ 'is-invalid': paymentForm.get('expiry')?.touched && paymentForm.get('expiry')?.invalid }" />
+                            <div *ngIf="paymentForm.get('expiry')?.touched && paymentForm.get('expiry')?.invalid" class="invalid-feedback">
                                 Expiry date is required and must be in MM/YY format.
                             </div>
                         </div>
@@ -113,27 +97,15 @@
                         <div class="mb-4">
                             <label for="cvv" class="form-label fw-semibold">CVV</label>
                             <input id="cvv" formControlName="cvv" type="password" maxlength="4" class="form-control"
-                                [ngClass]="{
-                    'is-invalid':
-                      paymentForm.get('cvv')?.touched &&
-                      paymentForm.get('cvv')?.invalid
-                  }" />
-                            <div *ngIf="
-                    paymentForm.get('cvv')?.touched &&
-                    paymentForm.get('cvv')?.invalid
-                  " class="invalid-feedback">
+                                [ngClass]="{ 'is-invalid': paymentForm.get('cvv')?.touched && paymentForm.get('cvv')?.invalid }" />
+                            <div *ngIf="paymentForm.get('cvv')?.touched && paymentForm.get('cvv')?.invalid" class="invalid-feedback">
                                 CVV is required and must be 3 or 4 digits.
                             </div>
                         </div>
 
                         <div class="d-flex gap-2">
-                            <button class="btn btn-success flex-grow-1" type="submit">
-                                Submit Payment
-                            </button>
-                            <button class="btn btn-outline-secondary flex-grow-1" (click)="resetPayment()"
-                                type="button">
-                                Reset
-                            </button>
+                            <button class="btn btn-success flex-grow-1" type="submit">Submit Payment</button>
+                            <button class="btn btn-outline-secondary flex-grow-1" (click)="resetPayment()" type="button">Reset</button>
                         </div>
                     </form>
 
@@ -170,8 +142,9 @@
             </li>
         </ul>
 
-        <button class="btn btn-outline-secondary" (click)="cancelPayment()" type="button">
-            Back to Delivery Details
-        </button>
+        <div class="d-flex gap-3">
+            <button class="btn btn-outline-secondary flex-grow-1" (click)="step = 1">Back to Delivery Details</button>
+            <button class="btn btn-danger flex-grow-1" (click)="cancelPayment()" type="button">Cancel payment</button>
+        </div>
     </div>
 </div>
