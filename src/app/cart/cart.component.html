@@ -1,3 +1,4 @@
+<app-search></app-search>
 <div style="height: 100vh;">
 
     <div class="container my-4">
@@ -49,8 +50,7 @@
         <!-- Summary and checkout -->
         <div class="mt-4 text-end">
             <h5>Total: <span class="text-primary fw-bold">₹{{ service.totalPrice.toFixed(2) }}</span></h5>
-            <button class="btn btn-success px-4 mt-3" (click)="makePayment()" *ngIf="!service.checkout">Proceed to
-                Checkout</button>
+            <button class="btn btn-success px-4 mt-3" (click)="makePayment()" *ngIf="!service.checkout">Proceed to Checkout</button>
         </div>
     </div>
 
