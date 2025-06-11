@@ -21,6 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { OrderComponent } from './order/order.component';
 import { CheckoutComponent } from './cart/checkout/checkout.component';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { BillComponent } from './cart/bill/bill.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     SignupComponent,
     OrderComponent,
     CheckoutComponent,
+    BillComponent,
   ],
   imports: [
     BrowserModule,

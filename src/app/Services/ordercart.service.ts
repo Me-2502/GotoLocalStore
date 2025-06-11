@@ -14,9 +14,9 @@ export class OrdercartService {
   futureOrderItems: CartItems[] = [];
   http = inject(HttpClient);
   user: User = JSON.parse(localStorage.getItem('prevUser') as string);
-  totalPrice = 0;
-  checkout = false;
   shippingCharge = 20;
+  totalPrice = this.shippingCharge;
+  checkout = false;
 
   constructor(private router: Router) { }
 
@@ -30,10 +30,11 @@ export class OrdercartService {
 
   loadCartProductDetails(){
     this.cartProducts = [];
+    this.totalPrice = this.shippingCharge;
     this.cartItems.forEach((val) => {
       this.http.get('http://localhost:3000/products/' + val.productId).subscribe((product: any) => {
         this.cartProducts.push(product);
-        this.totalPrice += (val.quantity * (product.price - (product.price * (product.discount == undefined ? 0 : product.discount) / 100)));
+        this.totalPrice += (val.quantity * (product.price - (product.price * (product.discount ?? 0) / 100)));
       });
     });
   }
@@ -45,6 +46,18 @@ export class OrdercartService {
       this.http.delete(`http://localhost:3000/users/${this.user.email}/cart/clear`).subscribe();
       this.cartItems = [];
       this.router.navigate(['order']);
+    });
+  }
+  calculateTotal(){
+    this.totalPrice = this.shippingCharge;
+    this.cartItems.forEach((val, index) =>{
+      this.totalPrice += this.cartProducts[index].price * ((100 - (this.cartProducts[index].discount ?? 0)) / 100) * val.quantity;
+    });
+  }
+
+  deleteAnItem(id: string){
+    this.http.delete(`http://localhost:3000/users/${this.user.email}/cartItem/${id}`).subscribe(() => {
+      this.loadCartItems();
     });
   }
 }

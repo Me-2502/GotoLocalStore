@@ -184,6 +184,19 @@ app.delete('/users/:email/cart/clear', (req, res) => {
     res.status(200).send();
 });
 
+app.delete('/users/:email/cartItem/:id', (req, res) => {
+    const user = users.find(u => u.email == req.params.email);
+    if(!user)
+        return res.status(404).json({ message: "User not found" });
+    const id = req.params.id;
+    const cartItemIndex = user.cart.findIndex(ci => ci.productId == id);
+    if(cartItemIndex == -1)
+        return res.status(404).json({ message: "Item not found in cart" });
+    user.cart.splice(cartItemIndex, 1);
+    user.cart = [];
+    res.status(200).send({ message: "Item removed from cart", cart: user.cart});
+});
+
 app.get('/users/:email/cart', (req, res) => {
     const user = users.find(u => u.email === req.params.email);
     if(!user)

@@ -1,79 +1,56 @@
 <app-search></app-search>
-<div style="min-height: 100vh;">
+<div style="min-height: 100vh;" class="container">
 
-    <div class="container my-4">
-        <h2 class="mb-4 text-primary fw-bold">Shopping Cart ({{ service.cartProducts.length }})</h2>
+    <div class="d-flex  my-2 row g-4">
+        <div class="col-12 col-lg-8">
+            <h2 class="mb-4 text-primary fw-bold">Shopping Cart ({{ service.cartProducts.length }})</h2>
+            <div *ngIf="service.cartProducts.length > 0; else emptyCart">
+                <div class="row g-2">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let item of service.cartProducts; let i = index">
+                        <div class="d-flex flex-column flex-md-row align-items-center bg-white rounded shadow-sm p-3 h-100">
+                            <img [src]="item.imgUrl" [alt]="item.name" class="img-thumbnail mb-3 mb-md-0" style="width: 100%; max-width: 200px; height: 100%; object-fit: contain;" />
 
-        <div *ngIf="service.cartProducts.length > 0; else emptyCart">
-            <div class="row g-2">
-                <div class="col-12 col-sm-12 col-md-6 col-lg-6" *ngFor="let item of service.cartProducts; let i = index">
-                    <div class="d-flex flex-column flex-md-row align-items-center bg-white rounded shadow-sm p-3 h-100">
-                        <img [src]="item.imgUrl" [alt]="item.name" class="img-thumbnail mb-3 mb-md-0" style="width: 100%; max-width: 200px; height: 100%; object-fit: contain;" />
+                            <div class="flex-grow-1 ms-md-3 w-100">
+                                <h5 class="mb-1 fw-semibold">{{ item.name }}</h5>
+                                <small class="text-muted">{{ item.brand }} • {{ item.category | titlecase }}</small>
 
-                        <div class="flex-grow-1 ms-md-3 w-100">
-                            <h5 class="mb-1 fw-semibold">{{ item.name }}</h5>
-                            <small class="text-muted">{{ item.brand }} • {{ item.category | titlecase }}</small>
+                                <p class="mt-2 mb-1 fs-5 text-danger fw-bold">
+                                    ₹{{ (item.price - (item.price * (item.discount ?? 0) / 100)).toFixed(2) }}
+                                    <span class="text-muted text-decoration-line-through ms-2" *ngIf="item.discount && item.discount > 0">
+                                        ₹{{ item.price.toFixed(2) }}
+                                    </span>
+                                    <span class="badge bg-success ms-2" *ngIf="item.discount && item.discount > 0">
+                                        {{ item.discount }}% OFF
+                                    </span>
+                                </p>
 
-                            <p class="mt-2 mb-1 fs-5 text-danger fw-bold">
-                                ₹{{ (item.price - (item.price * (item.discount ?? 0) / 100)).toFixed(2) }}
-                                <span class="text-muted text-decoration-line-through ms-2" *ngIf="item.discount && item.discount > 0">
-                                    ₹{{ item.price.toFixed(2) }}
-                                </span>
-                                <span class="badge bg-success ms-2" *ngIf="item.discount && item.discount > 0">
-                                    {{ item.discount }}% OFF
-                                </span>
-                            </p>
+                                <div class="d-flex align-items-center gap-3 flex-wrap">
+                                    <label class="mb-0 fw-semibold">Quantity:</label>
+                                    <input type="number" class="form-control w-75" min="1" [value]="service.cartItems[i].quantity" [(ngModel)]="service.cartItems[i].quantity" (change)="service.calculateTotal()" />
+                                </div>
 
-                            <div class="d-flex align-items-center gap-3 flex-wrap">
-                                <label class="mb-0 fw-semibold">Quantity:</label>
-                                <input type="number" class="form-control w-75" min="1" [value]="service.cartItems[i].quantity" [(ngModel)]="service.cartItems[i].quantity" />
-                            </div>
+                                <small class="text-muted d-block mt-2">In stock: {{ item.inStock }}</small>
 
-                            <small class="text-muted d-block mt-2">In stock: {{ item.inStock }}</small>
-
-                            <div class="d-flex flex-wrap gap-2 my-2">
-                                <button class="btn me-4 btn-outline-danger btn-sm" (click)="removeItem(i)" title="Remove item">
-                                    Remove
-                                </button>
-                                <button class="btn ms-4 btn-warning btn-sm" (click)="moveToFutureOrder(service.cartItems[i])">
-                                    Move to Wishlist
-                                </button>
+                                <div class="d-flex flex-wrap gap-2 my-2">
+                                    <button class="btn me-4 btn-outline-danger btn-sm" (click)="removeItem(service.cartItems[i].productId)" title="Remove item">
+                                        Remove
+                                    </button>
+                                    <button class="btn ms-4 btn-warning btn-sm" (click)="moveToFutureOrder(service.cartItems[i])">
+                                        Move to Wishlist
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- Summary and checkout -->
-<div class="mt-4 text-end">
-    <h4 class="mb-3 text-end">Order Summary</h4>
-  
-    <div class="table-responsive ms-auto me-0">
-      <table class="table w-25">
-        <tbody>
-          <tr>
-            <th scope="row">Subtotal</th>
-            <td class="text-end">₹{{ service.totalPrice.toFixed(2) }}</td>
-          </tr>
-          <tr>
-            <th scope="row">Shipping Charge</th>
-            <td class="text-end">₹{{ service.shippingCharge.toFixed(2) || '50.00' }}</td>
-          </tr>
-          <tr class="table-light fw-bold">
-            <th scope="row">Grand Total</th>
-            <td class="text-end text-primary">₹{{ (service.totalPrice + (service.shippingCharge)).toFixed(2) }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  
-    <div class="text-end">
-      <button class="btn btn-success px-4 mt-3" (click)="makePayment()" *ngIf="!service.checkout">Proceed to Checkout</button>
-    </div>
-  </div>
-  
+        <div class="col-12 col-lg-4">
+            <app-bill></app-bill>
+        </div>
+
     </div>
 
     <ng-template #emptyCart>

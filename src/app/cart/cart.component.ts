@@ -26,7 +26,9 @@ export class CartComponent {
     this.futureOrderItems.push(item);
     this.service.cartItems = this.service.cartItems.filter(ci => ci !== item);
   }
-  removeItem(i: any){}
+  removeItem(id: string){
+    this.service.deleteAnItem(id);
+  }
 
   updateQuantity(i: any, e: any){}
 }
