@@ -4,15 +4,15 @@
         <h2 class="mb-4 text-primary fw-bold">Shopping Cart ({{ service.cartProducts.length }} items)</h2>
 
         <div *ngIf="service.cartProducts.length > 0; else emptyCart">
-            <div class="row g-4">
-                <div class="col-12" *ngFor="let item of service.cartProducts; let i = index">
-                    <div class="d-flex align-items-center bg-white rounded shadow-sm p-3">
-                        <img [src]="item.imgUrl" [alt]="item.name" class="img-thumbnail"
-                            style="width: 200px; height: 200px; object-fit: contain" />
+            <div class="row g-2">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6" *ngFor="let item of service.cartProducts; let i = index">
+                    <div class="d-flex flex-column flex-md-row align-items-center bg-white rounded shadow-sm p-3 h-100">
+                        <img [src]="item.imgUrl" [alt]="item.name" class="img-thumbnail mb-3 mb-md-0" style="width: 100%; max-width: 200px; height: 100%; object-fit: contain;" />
 
-                        <div class="flex-grow-1 ms-3">
+                        <div class="flex-grow-1 ms-md-3 w-100">
                             <h5 class="mb-1 fw-semibold">{{ item.name }}</h5>
-                            <small class="text-muted">{{ item.brand }} • {{ item.category }}</small>
+                            <small class="text-muted">{{ item.brand }} • {{ item.category | titlecase }}</small>
+
                             <p class="mt-2 mb-1 fs-5 text-danger fw-bold">
                                 ₹{{ (item.price - (item.price * (item.discount ?? 0) / 100)).toFixed(2) }}
                                 <span class="text-muted text-decoration-line-through ms-2"
@@ -24,45 +24,44 @@
                                 </span>
                             </p>
 
-                            <div class="d-flex align-items-center gap-3">
+                            <div class="d-flex align-items-center gap-3 flex-wrap">
                                 <label class="mb-0 fw-semibold">Quantity:</label>
-                                <input type="number" class="form-control w-auto" min="1"
-                                    [value]="service.cartItems[i].quantity" (change)="updateQuantity(i, $event)" />
-
-                                <button class="btn btn-outline-danger btn-sm" (click)="removeItem(i)"
-                                    title="Remove item">
-                                    Remove
-                                </button>
-
-                                <button class="btn btn-warning btn-sm ms-auto"
-                                    (click)="moveToFutureOrder(service.cartItems[i])">
-                                    Move to Future Order
-                                </button>
+                                <input type="number" class="form-control w-75" min="1" [value]="service.cartItems[i].quantity" [(ngModel)]="service.cartItems[i].quantity" />
                             </div>
 
                             <small class="text-muted d-block mt-2">In stock: {{ item.inStock }}</small>
+
+                            <div class="d-flex flex-wrap gap-2 my-2">
+                                <button class="btn me-4 btn-outline-danger btn-sm" (click)="removeItem(i)" title="Remove item">
+                                    Remove
+                                </button>
+                                <button class="btn ms-4 btn-warning btn-sm" (click)="moveToFutureOrder(service.cartItems[i])">
+                                    Move to Wishlist
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Summary and checkout -->
-            <div class="mt-4 text-end">
-                <h5>Total: <span class="text-primary fw-bold">₹{{ service.totalPrice.toFixed(2) }}</span></h5>
-                <button class="btn btn-success px-4 mt-3" (click)="makePayment()" *ngIf="!service.checkout">
-                    Proceed to Checkout
-                </button>
-            </div>
         </div>
 
-        <ng-template #emptyCart>
-            <div class="alert alert-info text-center fs-5 py-5">
-                Your cart is currently empty.
-            </div>
-        </ng-template>
+        <!-- Summary and checkout -->
+        <div class="mt-4 text-end">
+            <h5>Total: <span class="text-primary fw-bold">₹{{ service.totalPrice.toFixed(2) }}</span></h5>
+            <button class="btn btn-success px-4 mt-3" (click)="makePayment()" *ngIf="!service.checkout">Proceed to
+                Checkout</button>
+        </div>
+    </div>
 
-        <!-- Future Orders Section -->
-        <div class="mt-5" *ngIf="futureOrderItems.length > 0">
+    <ng-template #emptyCart>
+        <div class="alert alert-info text-center fs-5 py-5">
+            Your cart is currently empty.
+        </div>
+    </ng-template>
+
+    <!-- Future Orders Section -->
+    <!-- <div class="mt-5" *ngIf="futureOrderItems.length > 0">
             <h4 class="fw-semibold mb-3">For Future Orders</h4>
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center"
@@ -74,7 +73,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
 
     <div *ngIf="service.checkout" class="mt-5">
         <app-checkout></app-checkout>

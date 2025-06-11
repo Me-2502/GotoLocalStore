@@ -33,12 +33,12 @@
   <h2 class="mb-4" *ngIf="productDetails">{{ productDetails.category | titlecase }}</h2>
 
   <!-- Carousel -->
-  <div id="productCarousel" class="slide p-2" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="hover">
+  <div id="productCarousel" class="slide p-2" [ngClass]="{'overflow-x-hidden': isHorizontal}" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="hover">
     <div class="container mx-2" *ngIf="isHorizontal">
       <!-- Scroll wrapper with hover pause -->
       <div class="position-relative" (mouseenter)="pause = true" (mouseleave)="pause = false || !isHorizontal">
         <div class="d-flex scroll-track" [class.paused]="pause">
-          <div class="product-item me-3" *ngFor="let product of groupedProducts()">
+          <div class="product-item mx-4" *ngFor="let product of groupedProducts()">
             <app-productcard [product]="product" (selected)="productClicked($event)"></app-productcard>
           </div>
         </div>
@@ -46,7 +46,7 @@
     </div>
     
     <div *ngIf="!isHorizontal" class="product-list row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-      <div *ngFor="let product of filteredProducts" class="product-item col p-4" style="">
+      <div *ngFor="let product of filteredProducts" class="product-item col p-4">
         <app-productcard [product]="product" (selected)="productClicked($event)"></app-productcard>
       </div>
     </div>

@@ -21,7 +21,7 @@ export class ProductlistComponent {
   http = inject(HttpClient);
   currentPage = 0;
   itemsPerPage = 4;
-  pause = this.isHorizontal;
+  pause = !this.isHorizontal;
   
   ngOnInit(){
     this.loadProducts();

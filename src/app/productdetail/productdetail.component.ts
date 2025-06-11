@@ -14,8 +14,8 @@ import { User } from '../Models/user';
 export class ProductdetailComponent {
   @Input() product!: Product;
   user: User = JSON.parse(localStorage.getItem('prevUser') as string);
-  quantity: number = -1;
-  dailyQuantity: number = -1;
+  quantity: number = 1;
+  dailyQuantity: number = 1;
   http = inject(HttpClient);
   activeRoute = inject(ActivatedRoute);
   
@@ -36,26 +36,18 @@ export class ProductdetailComponent {
   }
 
   addToCart(){
-    if(this.quantity == -1){
-      this.quantity = 1;
-      return;
-    }
     if(this.quantity >= 0)
     {
       this.http.post(`http://localhost:3000/users/${this.user.email}/cart`, new CartItems(this.product.id, this.quantity)).subscribe(res => console.log(res));
-      this.quantity = -1;
+      this.quantity = 1;
     }
   }
 
   addToDailyOrders(){
-    if(this.dailyQuantity == -1){
-      this.dailyQuantity = 1;
-      return;
-    }
     if(this.dailyQuantity >= 0)
     {
       this.http.post(`http://localhost:3000/users/${this.user.email}/daily`, { productId: this.product.id, quantity: this.dailyQuantity}).subscribe(res => console.log(res));
-      this.dailyQuantity = -1;
+      this.dailyQuantity = 1;
     }
   }
 
