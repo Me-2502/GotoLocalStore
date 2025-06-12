@@ -48,7 +48,9 @@ export class OrdercartService {
       this.router.navigate(['order']);
     });
   }
+
   calculateTotal(){
+
     this.totalPrice = this.shippingCharge;
     this.cartItems.forEach((val, index) =>{
       this.totalPrice += this.cartProducts[index].price * ((100 - (this.cartProducts[index].discount ?? 0)) / 100) * val.quantity;
@@ -68,6 +70,13 @@ export class OrdercartService {
     this.http.post(`http://localhost:3000/users/${this.user.email}/wishList`, {id: productId}).subscribe(res => {
       console.log(res)
       this.http.delete(`http://localhost:3000/users/${this.user.email}/cartItem/${productId}`).subscribe(data => console.log(data));
+    });
+  }
+
+  updateQuantity(i: number){
+    this.calculateTotal();
+    this.http.patch(`http://localhost:3000/users/${this.user.email}/cartItem/`, this.cartItems[i]).subscribe(res => {
+      console.log(res)
     });
   }
 }
