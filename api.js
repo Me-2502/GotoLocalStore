@@ -31,6 +31,7 @@ class User {
         this.cart = [];
         this.order = [];
         this.daily = [];
+        this.wishlist = [];
     }
 }
 
@@ -285,11 +286,44 @@ app.patch('/users/:email/daily', (req, res) => {
         return res.status(404).json({ message: "User not found" });
     const dailyIndex = user.daily.findIndex(val => val.productId === productId);
     if(dailyIndex === -1)
-        return res.status(404).json({ message: "daily order not found" });
+        return res.status(404).json({ message: "Daily order not found" });
     user.daily[dailyIndex].nextDeliveryQuantity = quantity;
     if(!temporary)
         user.daily[dailyIndex].defaultQuantity = quantity;
     res.status(200).json({ message: "Daily order updated successfully", daily: user.daily });
+});
+
+app.post('/users/:email/wishlist/', (req, res) => {
+    const email = req.params.email;
+    const productId = req.body.id;
+    const user = users.find(val => val.email === email);
+    if(!user)
+        return res.status(404).json({ message: "User not found" });
+    const index = user.wishlist.findIndex(val => val === productId);
+    if(index != -1)
+        return res.json({message: 'Already exist'});
+    user.wishlist.push(productId);
+    res.status(200).json({ message: "Added to wishlist" });
+});
+
+app.get('/users/:email/wishlist', (req, res) => {
+    const email = req.params.email;
+    const user = users.find(val => val.email === email);
+    if(!user)
+        return res.status(404).json({ message: "User not found" });
+    res.json(user.wishlist);
+});
+
+app.delete('/users/:email/wishlist/:productId', (req, res) => {
+    const { email, productId } = req.params;
+    const user = users.find(val => val.email === email);
+    if(!user)
+        return res.status(404).json({ message: "User not found" });
+    const wishlistIndex = user.wishlist.findIndex(val => val === productId);
+    if(wishlistIndex === -1)
+        return res.status(404).json({ message: "Product not found in wishlist" });
+    user.wishlist.splice(wishlistIndex, 1);
+    res.status(200).json({ message: "Product removed from wishlist" });
 });
 
 app.listen(PORT, () => {

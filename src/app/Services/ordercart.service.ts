@@ -60,4 +60,14 @@ export class OrdercartService {
       this.loadCartItems();
     });
   }
+
+  moveToWishList(index: number){
+    let productId = this.cartItems[index].productId;
+    this.cartItems.splice(index, 1);
+    this.cartProducts.splice(index, 1);
+    this.http.post(`http://localhost:3000/users/${this.user.email}/wishList`, {id: productId}).subscribe(res => {
+      console.log(res)
+      this.http.delete(`http://localhost:3000/users/${this.user.email}/cartItem/${productId}`).subscribe(data => console.log(data));
+    });
+  }
 }

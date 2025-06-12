@@ -31,3 +31,7 @@
 .text-hover-white:hover{
     color: white !important;
 }
+
+.sidebar-btn{
+    height: 40px;
+}

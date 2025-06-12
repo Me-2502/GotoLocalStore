@@ -1,23 +1,28 @@
-<div class="container-fluid rounded p-4 d-flex flex-wrap align-items-center justify-content-between gap-2">
+<nav class="navbar navbar-expand-lg navbar-light p-4 gap-2 border-bottom mb-4 shadow-sm">
 
   <div class="d-flex align-items-center">
     <a routerLink="/home"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlqz0oQTtU8vdv-nPjNW1gHIidDWit3ndMgQ&s"
-        alt="Product Image" class="img-fluid" style="max-height: 50px;"></a>
+      alt="Product Image" class="img-fluid" style="height: 50px; min-width: 150px;"></a>
   </div>
 
-  <div class="d-flex flex-grow-1 mx-3 justify-content-end" style="min-width: 250px; max-width: 1000px;">
-    <form class="input-group w-50" (submit)="searchProduct()">
+  <div class="d-flex flex-grow-1 mx-2 justify-content-end" style="min-width: 450px; max-width: 1200px;">
+    <form class="input-group w-75" (submit)="searchProduct()">
       <input type="text" class="form-control" placeholder="What do you want to buy today?"
         aria-label="Search for products" [(ngModel)]="searchedText" name="search">
       <button type="submit" class="btn btn-primary" [disabled]="!searchedText.trim()">🔍</button>
     </form>
   </div>
 
+  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
 
-  <div class="d-flex gap-2">
-    <div><a class="btn mx-2 mb-0" routerLink="/user">{{ user.name != undefined ? user.name : 'User' }}</a></div>
-    <div class="btn"><a class="btn btn-primary mx-2" routerLink="/cart" [routerLinkActive]="'active'" class="mb-0">🛒</a></div>
-    <div class="btn"><a class="btn btn-primary mx-2" routerLink="/order" [routerLinkActive]="'active'" class="mb-0">🛍️</a></div>
+  <div class="collapse navbar-collapse flex-shrink-0 justify-content-end gap-2" style="width: fit-content; max-width: 400px;" id="mainNavbar">
+    <div><a class="btn mb-0" routerLink="/home">Home</a></div>
+    <div><a class="btn mb-0" routerLink="/user">{{ user.name != undefined ? user.name : 'User' }}</a></div>
+    <div><a class="btn mb-0" routerLink="/cart">Cart</a></div>
+    <div><a class="btn mb-0" routerLink="/order">Orders</a></div>
   </div>
 
-</div>
+</nav>

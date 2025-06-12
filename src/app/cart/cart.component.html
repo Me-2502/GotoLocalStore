@@ -1,7 +1,7 @@
 <app-search></app-search>
 <div style="min-height: 100vh;" class="container">
 
-    <div class="d-flex  my-2 row g-4">
+    <div class="d-flex row g-4">
         <div class="col-12 col-lg-8">
             <h2 class="mb-4 text-primary fw-bold">Shopping Cart ({{ service.cartProducts.length }})</h2>
             <div *ngIf="service.cartProducts.length > 0; else emptyCart">
@@ -35,7 +35,7 @@
                                     <button class="btn me-4 btn-outline-danger btn-sm" (click)="removeItem(service.cartItems[i].productId)" title="Remove item">
                                         Remove
                                     </button>
-                                    <button class="btn ms-4 btn-warning btn-sm" (click)="moveToFutureOrder(service.cartItems[i])">
+                                    <button class="btn ms-4 btn-warning btn-sm" (click)="moveToFutureOrder(i)">
                                         Move to Wishlist
                                     </button>
                                 </div>

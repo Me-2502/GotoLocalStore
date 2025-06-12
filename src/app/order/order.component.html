@@ -1,26 +1,24 @@
-<div class="container py-4">
+<app-search></app-search>
+<div class="container">
     <!-- Orders Header -->
     <div class="card shadow-sm mb-4">
       <div class="card-body">
-        <div class="d-flex justify-content-between flex-wrap align-items-center mb-3">
-          <h1 class="h3 mb-2 mb-md-0 text-danger fw-bold">My Orders</h1>
-          <a routerLink="/home" class="btn btn-outline-secondary">
-            <i class="bi bi-arrow-left"></i> Continue Shopping
-          </a>
-        </div>
-  
-        <div class="d-flex flex-wrap gap-2">
-          <button class="btn btn-outline-danger btn-sm" (click)="changeFilter('All')">All Orders</button>
-          <button class="btn btn-outline-danger btn-sm" (click)="changeFilter('Processing')">Processing</button>
-          <button class="btn btn-outline-danger btn-sm" (click)="changeFilter('Shipped')">Shipped</button>
-          <button class="btn btn-outline-danger btn-sm" (click)="changeFilter('Delivered')">Delivered</button>
-          <button class="btn btn-outline-danger btn-sm" (click)="changeFilter('Cancelled')">Cancelled</button>
+        <div class="d-flex justify-content-between flex-wrap align-items-center">
+          <h1 class="h3 mb-md-0 text-primary fw-bold">Orders</h1>
+          
+          <ul class="d-flex flex-wrap gap-2 mb-md-0">
+            <li class="btn btn-outline-primary text-dark text-hover-white border-0 btn-sm header-btn" [ngClass]="{'bg-primary text-white': selectedStatus == 'All'}" (click)="changeFilter('All')">All Orders</li>
+            <li class="btn btn-outline-primary text-dark text-hover-white border-0 btn-sm header-btn" [ngClass]="{'bg-primary text-white': selectedStatus == 'Processing'}" (click)="changeFilter('Processing')">Processing</li>
+            <li class="btn btn-outline-primary text-dark text-hover-white border-0 btn-sm header-btn" [ngClass]="{'bg-primary text-white': selectedStatus == 'Shipped'}" (click)="changeFilter('Shipped')">Shipped</li>
+            <li class="btn btn-outline-primary text-dark text-hover-white border-0 btn-sm header-btn" [ngClass]="{'bg-primary text-white': selectedStatus == 'Delivered'}" (click)="changeFilter('Delivered')">Delivered</li>
+            <li class="btn btn-outline-primary text-dark text-hover-white border-0 btn-sm header-btn" [ngClass]="{'bg-primary text-white': selectedStatus == 'Cancelled'}" (click)="changeFilter('Cancelled')">Cancelled</li>
+          </ul>
         </div>
       </div>
     </div>
   
     <!-- Orders List -->
-    <div *ngIf="orders.length > 0; else noOrders">
+    <div *ngIf="orders.length > 0; else noOrders" style="min-height: 80vh;">
       <div class="row g-4">
         <div class="col-6" *ngFor="let order of filteredOrderedProducts; let i = index">
           <div class="card shadow-sm">

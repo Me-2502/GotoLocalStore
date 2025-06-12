@@ -26,16 +26,13 @@ export class OrderComponent {
   }
 
   applyFilter() {
-    if (this.selectedStatus === 'All') {
+    if (this.selectedStatus === 'All')
       this.filteredOrders = this.orders;
-    } else {
+    else
       this.filteredOrders = this.orders.filter(order => order.status === this.selectedStatus);
-    }
-  
     const filteredProductIds = this.filteredOrders.map(order => order.productId);
     this.filteredOrderedProducts = this.orderedProducts.filter(product => filteredProductIds.includes(product.id));
   }
-  
 
   changeFilter(status: string) {
     this.selectedStatus = status;
@@ -57,11 +54,8 @@ export class OrderComponent {
   cancelOrder(productId: string){
     if(!confirm('Are you sure you want to cancel this order?'))
       return;
-
     this.http.delete(`http://localhost:3000/users/${this.user.email}/order/${productId}`).subscribe(() => {
-      this.orders = this.orders.map(order =>
-        order.productId === productId ? { ...order, status: 'Cancelled' } : order
-      );
+      this.orders = this.orders.map(order => order.productId === productId ? { ...order, status: 'Cancelled' } : order);
     });
   }
 }

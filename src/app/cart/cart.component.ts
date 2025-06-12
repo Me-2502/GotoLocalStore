@@ -10,7 +10,6 @@ import { OrdercartService } from '../Services/ordercart.service';
   templateUrl: './cart.component.html'
 })
 export class CartComponent {
-  futureOrderItems: CartItems[] = [];
   http = inject(HttpClient);
   service = inject(OrdercartService);
   
@@ -22,10 +21,10 @@ export class CartComponent {
     this.service.checkout = !this.service.checkout;
   }
 
-  moveToFutureOrder(item: CartItems){
-    this.futureOrderItems.push(item);
-    this.service.cartItems = this.service.cartItems.filter(ci => ci !== item);
+  moveToFutureOrder(item: number){
+    this.service.moveToWishList(item);
   }
+
   removeItem(id: string){
     this.service.deleteAnItem(id);
   }

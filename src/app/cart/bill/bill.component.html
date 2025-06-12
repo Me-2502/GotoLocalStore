@@ -30,7 +30,7 @@
         </div>
 
         <!-- Summary Charges -->
-        <div class="row justify-content-end">
+        <div class="row justify-content-end" *ngIf="service.cartItems.length != 0">
           <div class="col-md-9">
             <table class="table table-borderless">
               <tbody>
@@ -62,10 +62,10 @@
         <!-- Action Buttons -->
         <div class="d-flex flex-column justify-content-between gap-2">
           <a routerLink="/home" class="btn btn-outline-secondary w-100 w-md-auto" role="button">
-            ← Continue Shopping
+            Continue Shopping →
           </a>
-          <button class="btn btn-success px-2 w-100 w-md-auto" (click)="makePayment()" *ngIf="!service.checkout">
-            Proceed to Checkout →
+          <button class="btn btn-success px-2 w-100 w-md-auto" [disabled]="service.cartProducts.length == 0" (click)="makePayment()" *ngIf="!service.checkout">
+            Proceed to Checkout
           </button>
         </div>
       </div>
