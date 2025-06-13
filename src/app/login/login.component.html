@@ -14,8 +14,7 @@
                         <label for="email" class="form-label">E-mail</label>
                         <input type="email" id="email" name="email" placeholder="E-mail" class="form-control"
                             [formControlName]="'email'" />
-                        <div class="text-danger small"
-                            *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
+                        <div class="text-danger small" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
                             *E-mail is required
                         </div>
                     </div>
@@ -27,8 +26,7 @@
                         <label for="phone" class="form-label">Phone number</label>
                         <input type="tel" id="phone" name="phone" placeholder="Phone number" class="form-control"
                             [formControlName]="'phone'" />
-                        <div class="text-danger small"
-                            *ngIf="loginForm.get('phone')?.invalid && loginForm.get('phone')?.touched">
+                        <div class="text-danger small" *ngIf="loginForm.get('phone')?.invalid && loginForm.get('phone')?.touched">
                             *Phone number is required
                         </div>
                     </div>
@@ -36,21 +34,17 @@
                     <!-- Password -->
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Password" class="form-control"
-                            [formControlName]="'password'" />
-                        <div class="text-danger small"
-                            *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
+                        <input type="password" id="password" name="password" placeholder="Password" class="form-control" [formControlName]="'password'" />
+                        <div class="text-danger small" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
                             *Password is required
                         </div>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-primary" [disabled]="loginForm.get('password')?.invalid ||
-                  (
-                    (loginForm.get('email')?.valid && loginForm.get('phone')?.valid) ||
-                    (!loginForm.get('email')?.valid && !loginForm.get('phone')?.valid)
-                  )">
+                        <button type="submit" class="btn btn-primary" [disabled]="loginForm.get('password')?.valid &&
+                            ((loginForm.get('email')?.valid && !loginForm.get('phone')?.valid) ||
+                            (!loginForm.get('email')?.valid && loginForm.get('phone')?.valid))">
                             Login
                         </button>
                     </div>
@@ -60,8 +54,7 @@
 
                     <!-- Create Account -->
                     <div class="d-grid">
-                        <button type="button" class="btn btn-outline-secondary" (click)="signup()">Create
-                            Account</button>
+                        <button type="button" class="btn btn-outline-secondary" (click)="signup()">Create Account</button>
                     </div>
                 </form>
             </div>

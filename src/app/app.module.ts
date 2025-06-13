@@ -20,8 +20,10 @@ import { SignupComponent } from './signup/signup.component';
 import { HttpClientModule } from '@angular/common/http';
 import { OrderComponent } from './order/order.component';
 import { CheckoutComponent } from './cart/checkout/checkout.component';
-import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { BillComponent } from './cart/bill/bill.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DailyOrderComponent } from './userinfo/daily-order/daily-order.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { BillComponent } from './cart/bill/bill.component';
     OrderComponent,
     CheckoutComponent,
     BillComponent,
+    DailyOrderComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import { BillComponent } from './cart/bill/bill.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    SlickCarouselModule
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

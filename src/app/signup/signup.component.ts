@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { User } from '../Models/user';
 
 @Component({
@@ -17,7 +18,7 @@ export class SignupComponent {
   failedSignupPopup = false;
   http: HttpClient = inject(HttpClient);
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private toastr: ToastrService){}
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -36,6 +37,7 @@ export class SignupComponent {
       this.users = [this.newUser];
     this.http.post('http://localhost:3000/user/create', this.newUser).subscribe((response: any) => {
       console.log(response);
+      this.toastr.success('Successfully created account.', 'Success', { timeOut: 2000, closeButton: true });
     });
     this.resetForm();
   }

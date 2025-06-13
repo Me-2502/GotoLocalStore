@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { OrderItems } from '../Models/Order';
 import { Product } from '../Models/product';
 import { User } from '../Models/user';
@@ -19,7 +20,10 @@ export class OrderComponent {
   filteredOrderedProducts: Product[] = [];
   selectedStatus = 'All';
   
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toastr: ToastrService){
+    if(!this.user.name)
+      this.toastr.warning('You need to login to order.', 'Warning', { timeOut: 2000 });
+  }
   
   ngOnInit(){
     this.fetchOrders();
@@ -43,19 +47,28 @@ export class OrderComponent {
     this.loading = true;
     this.http.get(`http://localhost:3000/users/${this.user.email}/order`).subscribe((data: any) => {
       this.orders = data;
+      if(!this.orders)
+        return;
       this.orders.forEach((val) => {
         this.http.get('http://localhost:3000/products/' + val.productId).subscribe((product: any) => { this.orderedProducts.push(product); });
+        this.filteredOrderedProducts = this.orderedProducts;
       });
       this.loading = false;
-      this.filteredOrderedProducts = this.orderedProducts;
     });
   }
 
-  cancelOrder(productId: string){
+  cancelOrder(id: number){
     if(!confirm('Are you sure you want to cancel this order?'))
       return;
+    let productId = this.orders[id].productId;
+    this.orders.splice(id, 1);
+    this.orderedProducts.splice(id, 1);
     this.http.delete(`http://localhost:3000/users/${this.user.email}/order/${productId}`).subscribe(() => {
       this.orders = this.orders.map(order => order.productId === productId ? { ...order, status: 'Cancelled' } : order);
+      this.toastr.success('Order cancelled successfully.', 'Success', { timeOut: 2000, closeButton: true });
+    }, error => {
+      console.log(error);
+      this.toastr.error('Failed to cancel order.', 'Error', { timeOut: 2000, closeButton: true });
     });
   }
 }

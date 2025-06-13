@@ -19,10 +19,10 @@
   </button>
 
   <div class="collapse navbar-collapse flex-shrink-0 justify-content-end gap-2" style="width: fit-content; max-width: 400px;" id="mainNavbar">
-    <div><a class="btn mb-0" routerLink="/home">Home</a></div>
-    <div><a class="btn mb-0" routerLink="/user">{{ user.name != undefined ? user.name : 'User' }}</a></div>
-    <div><a class="btn mb-0" routerLink="/cart">Cart</a></div>
-    <div><a class="btn mb-0" routerLink="/order">Orders</a></div>
+    <div><a class="btn border-0 mb-0" routerLink="/home">Home</a></div>
+    <div><a class="btn border-0 mb-0" routerLink="/cart">Cart</a></div>
+    <div><a class="btn border-0 mb-0" routerLink="/order">Orders</a></div>
+    <div><a class="btn border-0 mb-0" [routerLink]="user.name ? ['/user'] : ['/login']" routerLinkActive="router-link-active" >{{ user.name ? user.name : 'Login' }}</a></div>
   </div>
 
 </nav>

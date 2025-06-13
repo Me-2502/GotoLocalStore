@@ -37,7 +37,7 @@
     <div class="container mx-2" *ngIf="isHorizontal">
       <!-- Scroll wrapper with hover pause -->
       <div class="position-relative" (mouseenter)="pause = true" (mouseleave)="pause = false || !isHorizontal">
-        <div class="d-flex scroll-track" [class.paused]="pause">
+        <div class="d-flex" [ngClass]="groupedProducts().length % 2 ? 'scroll-track3' : 'scroll-track2'" [class.paused]="pause">
           <div class="product-item mx-4" *ngFor="let product of groupedProducts()">
             <app-productcard [product]="product" (selected)="productClicked($event)"></app-productcard>
           </div>

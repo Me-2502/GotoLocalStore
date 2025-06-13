@@ -6,11 +6,10 @@
             <h2 class="mb-4 text-primary fw-bold">Shopping Cart ({{ service.cartProducts.length }})</h2>
             <div *ngIf="service.cartProducts.length > 0; else emptyCart">
                 <div class="row g-2">
-                    <div class="col-12 col-sm-12 col-md-12 col-lg-12" *ngFor="let item of service.cartProducts; let i = index">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2" *ngFor="let item of service.cartProducts; let i = index">
                         <div class="d-flex flex-column flex-md-row align-items-center bg-white rounded shadow-sm p-3 h-100">
                             <img [src]="item.imgUrl" [alt]="item.name" class="img-thumbnail mb-3 mb-md-0" style="width: 100%; max-width: 200px; height: 100%; object-fit: contain;" />
-
-                            <div class="flex-grow-1 ms-md-3 w-100">
+                            <div class="flex-grow-1 ms-md-4 w-100">
                                 <h5 class="mb-1 fw-semibold">{{ item.name }}</h5>
                                 <small class="text-muted">{{ item.brand }} • {{ item.category | titlecase }}</small>
 
@@ -26,16 +25,20 @@
 
                                 <div class="d-flex align-items-center gap-3 flex-wrap">
                                     <label class="mb-0 fw-semibold">Quantity:</label>
-                                    <input type="number" class="form-control w-75" min="1" [value]="service.cartItems[i].quantity" [(ngModel)]="service.cartItems[i].quantity" (change)="service.calculateTotal()" />
+                                    <div class="input-group w-50">
+                                        <button class="btn btn-outline-secondary" type="button" (click)="changeQuantity('-', i)">-</button>
+                                        <input type="number" class="form-control text-center" min="1" [value]="service.cartItems[i].quantity" [(ngModel)]="service.cartItems[i].quantity" (change)="service.updateQuantity(i)" />
+                                        <button class="btn btn-outline-secondary" type="button" (click)="changeQuantity('+', i)">+</button>
+                                    </div>
                                 </div>
 
                                 <small class="text-muted d-block mt-2">In stock: {{ item.inStock }}</small>
 
                                 <div class="d-flex flex-wrap gap-2 my-2">
-                                    <button class="btn me-4 btn-outline-danger btn-sm" (click)="removeItem(service.cartItems[i].productId)" title="Remove item">
+                                    <button class="btn me-4 btn-outline-danger btn-sm" (click)="service.deleteAnItem(item.id)" title="Remove item">
                                         Remove
                                     </button>
-                                    <button class="btn ms-4 btn-warning btn-sm" (click)="moveToFutureOrder(i)">
+                                    <button class="btn ms-4 btn-warning btn-sm" (click)="service.moveToWishList(i)">
                                         Move to Wishlist
                                     </button>
                                 </div>

@@ -103,7 +103,7 @@ export class ProductlistComponent {
   // Group products 3 per slide
   
   groupedProducts(){
-    return [...this.filteredProducts, ...this.filteredProducts];
+    return this.filteredProducts.length > 7 ? [...this.filteredProducts, ...this.filteredProducts] : [...this.filteredProducts, ...this.filteredProducts, ...this.filteredProducts];
   }
 
   goToPage(page: number) {

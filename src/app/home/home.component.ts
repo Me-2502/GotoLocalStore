@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
   recommendations = ['groceries', 'personal_care', 'household'];
+
+  scrollToSection(item: string): void {
+    const element = document.getElementById(item);
+    if(element)
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }

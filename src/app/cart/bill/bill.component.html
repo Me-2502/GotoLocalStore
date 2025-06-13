@@ -1,73 +1,65 @@
 <div class="container my-4">
-    <div class="card shadow-sm">
-      <div class="card-header bg-primary text-white">
-        <h5 class="mb-0">Cart Summary</h5>
-      </div>
-  
-      <div class="card-body">
-        <!-- Items List -->
-        <div class="border rounded mb-4">
-            <table class="table table-borderless align-middle">
-            <thead>
-                <tr>
-                <th>Item</th>
-                <th class="text-center">Qty</th>
-                <th class="text-end">Unit Price</th>
-                <th class="text-end">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of service.cartProducts; let i = index">
-                <td>{{ item.name }}</td>
-                <td class="text-center">{{ service.cartItems[i].quantity || 1 }}</td>
-                <td class="text-end">₹{{ (item.price * (1 - ((item.discount ?? 0) / 100))).toFixed(2) }}</td>
-                <td class="text-end">
-                    ₹{{ (item.price * (1 - ((item.discount ?? 0) / 100)) * service.cartItems[i].quantity).toFixed(2) }}
-                </td>
-                </tr>
-            </tbody>
-            </table>
-        </div>
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Cart Summary</h5>
+    </div>
 
-        <!-- Summary Charges -->
-        <div class="row justify-content-end" *ngIf="service.cartItems.length != 0">
-          <div class="col-md-9">
-            <table class="table table-borderless">
-              <tbody>
-                <tr>
-                  <th>Subtotal:</th>
-                  <td class="text-end">₹{{ (service.totalPrice - service.shippingCharge).toFixed(2) }}</td>
-                </tr>
-                <tr>
-                  <th>Shipping:</th>
-                  <td class="text-end">₹{{ service.shippingCharge.toFixed(2) }}</td>
-                </tr>
-                <!-- <tr>
+    <div class="card-body">
+      <!-- Items List -->
+      <div class="border rounded mb-4">
+        <table class="table table-borderless align-middle">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th class="text-center">Qty</th>
+              <th class="text-end">Unit Price</th>
+              <th class="text-end">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of service.cartProducts; let i = index">
+              <td>{{ item.name }}</td>
+              <td class="text-center">{{ service.cartItems[i].quantity || 1 }}</td>
+              <td class="text-end">₹{{ (item.price * (1 - ((item.discount ?? 0) / 100))).toFixed(2) }}</td>
+              <td class="text-end">₹{{ (item.price * (1 - ((item.discount ?? 0) / 100)) * service.cartItems[i].quantity).toFixed(2) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Summary Charges -->
+      <div class="row justify-content-end" *ngIf="service.cartItems.length != 0">
+        <div class="col-md-9">
+          <table class="table table-borderless">
+            <tbody>
+              <tr>
+                <th>Subtotal:</th>
+                <td class="text-end">₹{{ (service.totalPrice - service.shippingCharge).toFixed(2) }}</td>
+              </tr>
+              <tr>
+                <th>Shipping:</th>
+                <td class="text-end">₹{{ service.shippingCharge.toFixed(2) }}</td>
+              </tr>
+              <!-- <tr>
                   <th>Tax (18% GST):</th>
-                  <td class="text-end">
-                    ₹{{ ((service.totalPrice * 0.18)).toFixed(2) }}
-                  </td>
+                  <td class="text-end">₹{{ ((service.totalPrice * 0.18)).toFixed(2) }}</td>
                 </tr> -->
-                <tr class="fw-bold border-top">
-                  <th>Grand Total:</th>
-                  <td class="text-end text-primary fs-5">
-                    ₹{{ (service.totalPrice).toFixed(2) }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+              <tr class="fw-bold border-top">
+                <th>Grand Total:</th>
+                <td class="text-end text-primary fs-5">₹{{ (service.totalPrice).toFixed(2) }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-  
-        <!-- Action Buttons -->
-        <div class="d-flex flex-column justify-content-between gap-2">
-          <a routerLink="/home" class="btn btn-outline-secondary w-100 w-md-auto" role="button">
-            Continue Shopping →
-          </a>
-          <button class="btn btn-success px-2 w-100 w-md-auto" [disabled]="service.cartProducts.length == 0" (click)="makePayment()" *ngIf="!service.checkout">
-            Proceed to Checkout
-          </button>
-        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="d-flex flex-column justify-content-between gap-2">
+        <a routerLink="/home" class="btn btn-outline-secondary w-100 w-md-auto" role="button">Continue Shopping →</a>
+        <button class="btn btn-success px-2 w-100 w-md-auto" [disabled]="service.cartProducts.length == 0" (click)="makePayment()" *ngIf="!service.checkout">
+          Proceed to Checkout
+        </button>
       </div>
     </div>
-  </div>  
+  </div>
+</div>

@@ -72,7 +72,7 @@
                   <div class="d-flex gap-2 me-0 ms-auto">
                     <button class="btn btn-outline-primary btn-sm" type="button">View Details</button>
                     <button class="btn btn-outline-secondary btn-sm" type="button">Reorder</button>
-                    <button class="btn btn-outline-danger btn-sm" (click)="cancelOrder(orders[i].productId)" [disabled]="orders[i].status === 'Cancelled' || orders[i].status === 'Delivered'" type="button">Cancel Order</button>
+                    <button class="btn btn-outline-danger btn-sm" (click)="cancelOrder(i)" [disabled]="orders[i].status === 'Cancelled' || orders[i].status === 'Delivered'" type="button">Cancel Order</button>
                   </div>
                 </div>
                 

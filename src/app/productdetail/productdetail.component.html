@@ -15,32 +15,27 @@
         <div class="row g-5">
             <!-- Product Image -->
             <div class="col-lg-6 text-center">
-                <img [src]="product.imgUrl" [alt]="product.name" class="rounded my-auto w-75 shadow-sm"
-                  style="max-width: 250px; height: 400px;" />
+                <img [src]="product.imgUrl" [alt]="product.name" class="rounded my-auto w-75 shadow-sm" />
             </div>
 
             <!-- Product Info -->
             <div class="col-lg-6">
-                <h2 class="fw-bold mb-3">{{ product.name }}</h2>
+                <h2 class="fw-bold my-2">{{ product.name }}</h2>
                 <p class="text-muted">Brand: <strong>{{ product.brand }}</strong></p>
                 <p>Category: {{ product.category }}</p>
 
                 <p class="mb-1" [ngClass]="product.available ? 'text-success' : 'text-danger'">
-                    {{ product.available ? 'In Stock' : 'Out of Stock' }}
+                  {{ product.available ? 'In Stock' : 'Out of Stock' }}
                 </p>
-                <p *ngIf="product.available" class="text-warning small">Only {{ product.inStock }} left — order soon!
-                </p>
+                <p *ngIf="product.available" class="text-warning small">Only {{ product.inStock }} left — order soon!</p>
 
                 <!-- Price Display -->
                 <div class="my-3">
                     <span *ngIf="product.discount" class="text-muted text-decoration-line-through me-2">₹{{
                         product.price }}</span>
-                    <span class="fs-3 fw-bold text-danger">₹{{ getDiscountedPrice(product.price, product.discount)
-                        }}</span>
+                    <span class="fs-3 fw-bold text-danger">₹{{ getDiscountedPrice(product.price, product.discount) }}</span>
                     <span *ngIf="product.discount" class="text-success ms-2">({{ product.discount }}% off)</span>
                 </div>
-
-                <!-- <p class="text-secondary mb-4">{{ product.description }}</p> -->
 
                 <!-- Features -->
                 <div *ngIf="product.otherFeatures && (product.otherFeatures | keyvalue).length">
@@ -54,33 +49,30 @@
                 </div>
 
                 <!-- Quantity & Action Buttons -->
-                <div class="mt-4 d-flex flex-column flex-md-row align-items-start gap-3">
-
-                    <!-- Add to Cart -->
-                    <div class="flex-fill text-center">
-                      <div class="input-group mb-2 mx-auto" style="max-width: 200px;">
-                        <button class="btn btn-outline-success" type="button" (click)="changeQuantity('-')">-</button>
-                        <input type="number" class="form-control text-center" [(ngModel)]="quantity" min="1" />
-                        <button class="btn btn-outline-success" type="button" (click)="changeQuantity('+')">+</button>
-                      </div>
-
-                      <button class="btn btn-success w-75 mx-auto" [disabled]="!product.available" (click)="addToCart()">
-                          <i class="bi bi-cart-plus"></i> Add to cart
-                      </button>
+                <div class="mt-4 d-flex flex-column flex-md-row justify-content-around gap-3">
+                  <!-- Add to Cart -->
+                  <div class="text-center">
+                    <div class="input-group mb-2 mx-auto" style="max-width: 200px;">
+                      <button class="btn btn-outline-secondary" type="button" (click)="changeQuantity('-')">-</button>
+                      <input type="number" class="form-control text-center" [(ngModel)]="quantity" min="1" />
+                      <button class="btn btn-outline-secondary" type="button" (click)="changeQuantity('+')">+</button>
                     </div>
+                    <button class="btn btn-warning mx-auto" [disabled]="!product.available" (click)="addToCart()" style="height: 40px; width: 200px;">
+                      Add to cart
+                    </button>
+                  </div>
 
-                    <!-- Daily Orders -->
-                    <div class="flex-fill text-center">
-                      <div class="input-group mb-2 mx-auto" style="max-width: 200px;">
-                        <button class="btn btn-outline-danger" type="button" (click)="changeDailyQuantity('-')">-</button>
-                        <input type="number" class="form-control text-center" [(ngModel)]="dailyQuantity" min="1" />
-                        <button class="btn btn-outline-danger" type="button" (click)="changeDailyQuantity('+')">+</button>
-                      </div>
-
-                      <button class="btn btn-danger w-75 mx-auto" [disabled]="!product.available" (click)="addToDailyOrders()">
-                          <i class="bi bi-repeat"></i> Add to daily orders
-                      </button>
+                  <!-- Daily Orders -->
+                  <div class="text-center">
+                    <div class="input-group mb-2 mx-auto" style="max-width: 200px;">
+                      <button class="btn btn-outline-secondary" type="button" (click)="changeDailyQuantity('-')">-</button>
+                      <input type="number" class="form-control text-center" [(ngModel)]="dailyQuantity" min="1" />
+                      <button class="btn btn-outline-secondary" type="button" (click)="changeDailyQuantity('+')">+</button>
                     </div>
+                    <button class="btn btn-warning mx-auto" [disabled]="!product.available" (click)="addToDailyOrders()" style="height: 40px; min-width: 200px;">
+                      Add to daily orders
+                    </button>
+                  </div>
                 </div>
 
             </div>

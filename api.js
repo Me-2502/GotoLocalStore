@@ -158,12 +158,12 @@ app.get('/products/:id', (req, res) => {
 app.post('/users/:email/cart', (req, res) => {
     const email = req.params.email;
     const { productId, quantity } = req.body;
-    const user = users.find(u => u.email === email);
+    const user = users.find(user => user.email === email);
     const product = products.find(p => p.id === productId);
     if(!user || !product)
         return res.status(404).json({ message: "User or product not found" });
 
-    const existingCartItemIndex = user.cart.findIndex(ci => ci.productId === productId);
+    const existingCartItemIndex = user.cart.findIndex(item => item.productId === productId);
     if(existingCartItemIndex !== -1){
         user.cart[existingCartItemIndex].quantity += quantity;
         if(user.cart[existingCartItemIndex].quantity < 1){
@@ -175,6 +175,20 @@ app.post('/users/:email/cart', (req, res) => {
     else if(quantity > 0)
         user.cart.push(new CartItems(product.id, quantity));
     res.status(200).json({ message: "Added to cart", cart: user.cart });
+});
+
+app.patch('/users/:email/cartItem', (req, res) => {
+    const email = req.params.email;
+    const { productId, quantity } = req.body;
+    const user = users.find(user => user.email == email);
+    if(!user)
+        return res.status(404).json({ message: "User or product not found" });
+    const item = user.cart.find(item => item.productId == productId);
+    if(!item)
+        return res.status(404).json({ message: "Product not found in cart" });
+    if(quantity > 0)
+        item.quantity = quantity;
+    res.status(200).json({ message: "Cart updated" });
 });
 
 app.delete('/users/:email/cart/clear', (req, res) => {
@@ -215,10 +229,15 @@ app.post('/users/:email/order', (req, res) => {
     if(user.cart == undefined || user.cart.length == 0)
         return res.status(400).json({ message: 'Cart is empty' });
 
+    products.forEach(product => {
+        user.cart.forEach(item => {
+            if(item.productId == product.id)
+                product.quantity -= item.quantity;
+        });
+    });
     const orderItems = user.cart.map((item) => new OrderItems(item, address, date, 'Processing', payment, method));
     user.order.push(...orderItems);
     user.cart = [];
-    
     res.status(200).json({ message: "Items ordered", order: user.order });
 });
 
@@ -232,6 +251,8 @@ app.delete('/users/:email/order/:productId', (req, res) => {
     if(orderIndex === -1)
         return res.status(404).json({ message: "Order not found" });
 
+    const product = products.find(product => product.id === productId);
+    product.inStock += user.order[orderIndex].quantity;
     user.order.splice(orderIndex, 1);
 
     res.status(200).json({ message: "Order deleted successfully", order: user.order });
@@ -346,7 +367,7 @@ const products = [
           comment: "Affordable and reliable product for daily use."
         }
       ], specifications: [{ type: "Iodized", purity: "99%", packType: "Pouch" }] },
-    { id: "L6M7N8O9P0", name: "Aashirvaad Atta", imgUrl: "assets/aata.jpg", price: 45, brand: "Aashirvaad", available: true, inStock: 30, category: "groceries", discount: 5, otherFeatures: { weight: "5kg" }, description: "Aashirvaad Whole Wheat Atta is made from the finest grains, ensuring soft and fluffy rotis every time. Contains natural fiber and nutrients.", ratings: 4.6, numberOfRatings: 150, reviews: [
+    { id: "L6M7N8O9P0", name: "Aashirvad Aata", imgUrl: "assets/aata.jpg", price: 45, brand: "Aashirvaad", available: true, inStock: 30, category: "groceries", discount: 5, otherFeatures: { weight: "5kg" }, description: "Aashirvaad Whole Wheat Atta is made from the finest grains, ensuring soft and fluffy rotis every time. Contains natural fiber and nutrients.", ratings: 4.6, numberOfRatings: 150, reviews: [
         {
           name: "Neha Kapoor",
           rating: 5,
