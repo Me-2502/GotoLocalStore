@@ -14,6 +14,7 @@ export class ProductlistComponent {
   @Input() filterText: string = '';
 
   @Output() selectedProduct = new EventEmitter<string>();
+  @Output() filterOptions = new EventEmitter<{ brands?: string[], categories?: string[], dynamicFilters?: { [key: string]: string[] } }>();
 
   currentIndex = 0;
   products!: Product[];
@@ -37,9 +38,13 @@ export class ProductlistComponent {
       });
     else if(this.filterText)
       this.http.get('http://localhost:3000/products?filter=' + this.filterText).subscribe((data: any) => {
-        this.products = data;
-        console.log(this.products);
+        this.products = data.products;
         this.filteredProducts = this.products;
+        this.filterOptions.emit({
+          brands: data.brand,
+          categories: data.category,
+          dynamicFilters: data.dynamicFilters
+        });
       });
     else
       this.http.get('http://localhost:3000/products').subscribe((data: any) => {

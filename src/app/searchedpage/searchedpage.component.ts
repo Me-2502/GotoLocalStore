@@ -1,6 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductlistComponent } from '../productlist/productlist.component';
+import { FilterComponent } from './filter/filter.component';
 
 @Component({
   selector: 'app-searchedpage',
@@ -13,6 +14,7 @@ export class SearchedpageComponent {
   activeRoute = inject(ActivatedRoute);
 
   @ViewChild(ProductlistComponent) productListComponent!: ProductlistComponent;
+  @ViewChild(FilterComponent) filterComponent!: FilterComponent;
 
   constructor(private router: Router) {}
 
@@ -27,5 +29,14 @@ export class SearchedpageComponent {
   changeSearchText(s: string){
     this.searchFor = s;
     this.productListComponent.loadProducts(s);
+  }
+
+  setFilterOptions(filters: { brands?: string[], categories?: string[], dynamicFilters?: { [key: string]: string[] } }){
+    if(filters.categories)
+      this.filterComponent.categories = filters.categories;
+    if(filters.brands)
+      this.filterComponent.brands = filters.brands;
+    if(filters.dynamicFilters)
+      this.filterComponent.dynamicFilters = filters.dynamicFilters;
   }
 }

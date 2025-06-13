@@ -2,5 +2,5 @@
 
 <div class="d-flex p-4 gap-4">
     <app-filter (filtersChanged)="changeList($event)"></app-filter>
-    <app-productlist [filterText]="searchFor" [isHorizontal]="false"></app-productlist>
+    <app-productlist [filterText]="searchFor" [isHorizontal]="false" (filterOptions)="setFilterOptions($event)"></app-productlist>
 </div>

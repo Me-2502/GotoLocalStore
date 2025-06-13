@@ -70,35 +70,6 @@ const PORT = 3000;
 app.use(express.json());
 app.use(cors());
 
-// const products = [
-//     new Product("A1B2C3D4E5", "iPhone 14 Pro", "assets/mobile.jpg", 999, "Apple", true, 12, "mobiles", 10, {color: "Deep Purple", storage: "128GB"}, "Latest Apple iPhone with A16 Bionic."),
-//     new Product("F6G7H8I9J0", "Samsung Galaxy S23", "assets/mobile.jpg", 899, "Samsung", true, 15, "mobiles", 12, {color: "Phantom Black", storage: "256GB"}, "High-end Android with Snapdragon 8 Gen 2."),
-//     new Product("K1L2M3N4O5", "OnePlus 11", "assets/mobile.jpg", 699, "OnePlus", true, 20, "mobiles", 5, {color: "Eternal Green", storage: "256GB"}, "Fast and smooth OxygenOS phone."),
-//     new Product("P6Q7R8S9T0", "Google Pixel 8", "assets/mobile.jpg", 799, "Google", true, 10, "mobiles", 8, {color: "Obsidian", storage: "128GB"}, "Clean Android and amazing camera."),
-//     new Product("U1V2W3X4Y5", "Xiaomi 13 Pro", "assets/mobile.jpg", 649, "Xiaomi", true, 18, "mobiles", 15, {color: "Ceramic White", storage: "512GB"}, "Flagship specs at affordable price."),
-//     new Product("Z6A7B8C9D0", "Realme GT Neo 3", "assets/mobile.jpg", 499, "Realme", true, 25, "mobiles", 20, {color: "Nitro Blue", storage: "256GB"}, "Budget flagship killer."),
-  
-//     new Product("E1F2G3H4I5", "MacBook Pro M2", "assets/laptop.jpg", 1999, "Apple", true, 10, "laptops", 5, {ram: "16GB", storage: "512GB"}, "Powerful and efficient MacBook."),
-//     new Product("J6K7L8M9N0", "Dell XPS 13", "assets/laptop.jpg", 1399, "Dell", true, 14, "laptops", 10, {ram: "16GB", processor: "Intel i7"}, "Compact ultrabook with top performance."),
-//     new Product("O1P2Q3R4S5", "HP Spectre x360", "assets/laptop.jpg", 1299, "HP", true, 11, "laptops", 15, {ram: "16GB", type: "Convertible"}, "2-in-1 premium ultrabook."),
-//     new Product("T6U7V8W9X0", "Asus ROG Strix", "assets/laptop.jpg", 1599, "Asus", true, 9, "laptops", 8, {gpu: "RTX 4060", ram: "16GB"}, "High-performance gaming laptop."),
-//     new Product("Y1Z2A3B4C5", "Lenovo Legion 5", "assets/laptop.jpg", 1399, "Lenovo", true, 13, "laptops", 12, {gpu: "RTX 3060", display: "144Hz"}, "Affordable gaming beast."),
-//     new Product("D6E7F8G9H0", "MSI Prestige 14", "assets/laptop.jpg", 1199, "MSI", true, 10, "laptops", 10, {color: "Carbon Gray"}, "Sleek productivity laptop."),
-  
-//     new Product("I1J2K3L4M5", "Sony WH-1000XM5", "assets/headphone.jpg", 399, "Sony", true, 18, "headphones", 10, {noiseCancelling: true, battery: "30h"}, "Top-tier ANC headphones."),
-//     new Product("N6O7P8Q9R0", "Bose QC45", "assets/headphone.jpg", 329, "Bose", true, 15, "headphones", 8, {comfort: "high"}, "Comfortable with great sound."),
-//     new Product("S1T2U3V4W5", "AirPods Pro 2", "assets/headphone.jpg", 249, "Apple", true, 20, "headphones", 5, {spatialAudio: true}, "Perfect for iPhone users."),
-//     new Product("X6Y7Z8A9B0", "JBL Tune 760NC", "assets/headphone.jpg", 129, "JBL", true, 30, "headphones", 20, {color: "Black"}, "Budget ANC headphones."),
-//     new Product("C1D2E3F4G5", "Sennheiser HD 450BT", "assets/headphone.jpg", 149, "Sennheiser", true, 25, "headphones", 15, {bluetooth: "5.0"}, "Reliable wireless headphones."),
-//     new Product("H6I7J8K9L0", "Boat Rockerz 550", "assets/headphone.jpg", 49, "Boat", true, 40, "headphones", 25, {battery: "20h"}, "Affordable over-ear headphones."),
-  
-//     new Product("M1N2O3P4Q5", "Apple Watch Series 9", "assets/watch.jpg", 399, "Apple", true, 14, "watches", 5, {gps: true, size: "44mm"}, "Advanced health tracking."),
-//     new Product("R6S7T8U9V0", "Samsung Galaxy Watch 6", "assets/watch.jpg", 349, "Samsung", true, 13, "watches", 8, {ecg: true}, "Great for Android users."),
-//     new Product("W1X2Y3Z4A5", "Fossil Gen 6", "assets/watch.jpg", 299, "Fossil", true, 16, "watches", 10, {os: "WearOS"}, "Stylish smartwatch."),
-//     new Product("B6C7D8E9F0", "Fitbit Versa 4", "assets/watch.jpg", 199, "Fitbit", true, 22, "watches", 20, {fitnessTracking: true}, "Ideal for fitness tracking."),
-//     new Product("G1H2I3J4K5", "Garmin Forerunner 255", "assets/watch.jpg", 349, "Garmin", true, 9, "watches", 12, {gps: true}, "For serious athletes."),
-//     new Product("L6M7N8O9P0", "Noise ColorFit Pro 4", "assets/watch.jpg", 79, "Noise", true, 35, "watches", 30, {display: "AMOLED"}, "Budget smartwatch with AMOLED.")
-// ];
 const users = [
     new User("Alice Smith", 28, "Female", "123 Maple Street, NY", 1234567890, "alice@example.com", 'changeme@123', true),
     new User("Bob Johnson", 34, "Male", "456 Oak Avenue, CA", 2345678901, "bob@example.com", 'changeme@123', false),
@@ -143,7 +114,28 @@ app.get('/products', (req, res) => {
         res.json(products.filter((product) => { return product.category == req.query.category}));
     else if(req.query.filter != undefined){
         filterText = req.query.filter.toLowerCase();
-        res.json(products.filter((product) => Object.values(product).some(value => {return value?.toString().toLowerCase().includes(filterText);})));
+        let category = new Set([]);
+        let brand = new Set([]);
+        let rating = new Set([]);
+        let discount = new Set([]);
+        let filteredProducts = products.filter((product) => Object.values(product).some(value => {
+            if(value?.toString().toLowerCase().includes(filterText)){
+                brand.add(product.brand);
+                category.add(product.category);
+                if(product.ratings)
+                    rating.add(product.rating);
+                if (typeof product.discount === 'number'){
+                    let bucketStart = Math.floor(product.discount / 10) * 10;
+                    let bucketEnd = bucketStart + 10;
+                    discount.add(`${bucketStart}% - ${bucketEnd}%`);
+                }
+                else
+                    discount.add('none');
+                return value;
+            }
+        }));
+        let dynamicFilters = { 'rating': [...rating], 'discount': [...discount] };
+        res.json({products: filteredProducts, brand: [...brand], category: [...category], dynamicFilters: dynamicFilters});
     }
     else
         res.json(products);
@@ -430,54 +422,3 @@ const products = [
     new Product("B6C7D8E9F0", "Broom Stick", "assets/broomstick.jpg", 40, "Generic", true, 150, "household", 0, {material: "Plastic"}, "Durable broom for cleaning."),
     new Product("H1H2I3J4K5", "Trash Bags", "assets/trashbags.jpg", 20, "Generic", true, 200, "household", 5, {size: "Medium"}, "Strong and leak-proof."),
 ];
-
-/*
-const products = [
-    // **Groceries**
-    new Product("G1H2I3J4K5", "Tata Salt", "assets/salt.jpg", 20, "Tata", true, 50, "groceries", 0, {weight: "1kg"}, "Refined iodized salt."),
-    new Product("L6M7N8O9P0", "Aashirvaad Atta", "assets/atta.jpg", 45, "Aashirvaad", true, 30, "groceries", 5, {weight: "5kg"}, "Whole wheat flour for soft rotis."),
-    new Product("Q1R2S3T4U5", "Amul Butter", "assets/butter.jpg", 60, "Amul", true, 20, "groceries", 10, {weight: "500g"}, "Creamy and rich butter."),
-    new Product("V6W7X8Y9Z0", "Britannia Biscuit", "assets/biscuit.jpg", 25, "Britannia", true, 100, "groceries", 2, {flavor: "Treat", weight: "200g"}, "Crunchy and delicious."),
-    new Product("A2B3C4D5E6", "Nescafe Coffee", "assets/coffee.jpg", 150, "Nestlé", true, 40, "groceries", 8, {weight: "200g"}, "Instant coffee powder."),
-    new Product("F7G8H9I0J1", "Tata Tea", "assets/tea.jpg", 100, "Tata", true, 60, "groceries", 5, {weight: "500g"}, "Strong and aromatic tea."),
-    new Product("K2L3M4N5O6", "Maggi Noodles", "assets/noodles.jpg", 12, "Nestlé", true, 200, "groceries", 15, {flavor: "Masala", weight: "70g"}, "Quick and tasty noodles."),
-    new Product("P7Q8R9S0T1", "Parle-G Biscuit", "assets/biscuit.jpg", 10, "Parle", true, 150, "groceries", 0, {weight: "100g"}, "Classic glucose biscuits."),
-
-    // **Personal Care**
-    new Product("D1E2F3G4H5", "Dove Soap", "assets/soap.jpg", 35, "Dove", true, 50, "personal_care", 5, {weight: "100g"}, "Moisturizing soap for soft skin."),
-    new Product("J6K7L8M9N0", "Colgate Toothpaste", "assets/toothpaste.jpg", 50, "Colgate", true, 80, "personal_care", 10, {weight: "150g"}, "Provides cavity protection."),
-    new Product("O1P2Q3R4S5", "Head & Shoulders Shampoo", "assets/shampoo.jpg", 120, "Head & Shoulders", true, 30, "personal_care", 8, {volume: "200ml"}, "Anti-dandruff shampoo."),
-    new Product("T6U7V8W9X0", "Nivea Cream", "assets/cream.jpg", 80, "Nivea", true, 60, "personal_care", 5, {weight: "100g"}, "Rich moisturizing cream."),
-    new Product("Y1Z2A3B4C5", "L'Oréal Paris Shampoo", "assets/shampoo.jpg", 150, "L'Oréal", true, 40, "personal_care", 12, {volume: "200ml"}, "Shampoo for smooth hair."),
-    new Product("D6E7F8G9H0", "Vaseline Lotion", "assets/lotion.jpg", 90, "Vaseline", true, 70, "personal_care", 7, {volume: "200ml"}, "Deep moisture lotion."),
-    new Product("I1J2K3L4M5", "Axe Deodorant", "assets/deodorant.jpg", 150, "Axe", true, 50, "personal_care", 3, {volume: "150ml"}, "Long-lasting fragrance."),
-    new Product("R6S7T8U9V0", "Gillette Shaving Foam", "assets/shavingfoam.jpg", 100, "Gillette", true, 60, "personal_care", 6, {volume: "200ml"}, "Smooth shaving experience."),
-
-    // **Household Items**
-    new Product("W1X2Y3Z4A5", "Ariel Detergent Powder", "assets/detergent.jpg", 150, "Ariel", true, 40, "household", 10, {weight: "1kg"}, "Powerful stain removal."),
-    new Product("B6C7D8E9F0", "Harpic Toilet Cleaner", "assets/toiletcleaner.jpg", 50, "Harpic", true, 70, "household", 5, {volume: "500ml"}, "Kills germs and removes stains."),
-    new Product("G1H2I3J4K5", "Lizol Disinfectant", "assets/disinfectant.jpg", 100, "Lizol", true, 60, "household", 8, {volume: "500ml"}, "Disinfects and deodorizes."),
-    new Product("M1N2O3P4Q5", "Scotch-Brite Scrub Pad", "assets/scrubpad.jpg", 30, "Scotch-Brite", true, 100, "household", 12, {size: "Medium"}, "Durable cleaning pad."),
-    new Product("R6S7T8U9V0", "Colgate Toilet Cleaner", "assets/toiletcleaner.jpg", 60, "Colgate", true, 50, "household", 7, {volume: "500ml"}, "Cleans and freshens toilet."),
-    new Product("W1X2Y3Z4A5", "Odonil Air Freshener", "assets/airfreshener.jpg", 75, "Odonil", true, 80, "household", 10, {scent: "Lavender"}, "Long-lasting fragrance."),
-    new Product("B6C7D8E9F0", "Broom Stick", "assets/broomstick.jpg", 40, "Generic", true, 150, "household", 0, {material: "Plastic"}, "Durable broom for cleaning."),
-    new Product("G1H2I3J4K5", "Trash Bags", "assets/trashbags.jpg", 20, "Generic", true, 200, "household", 5, {size: "Medium"}, "Strong and leak-proof."),
-
-    // **Snacks & Beverages**
-    new Product("S1T2U3V4W5", "Lay's Chips", "assets/chips.jpg", 20, "Lay's", true, 100, "snacks & beverages", 10, {flavor: "Classic Salted", weight: "50g"}, "Crispy and tasty chips."),
-    new Product("X6Y7Z8A9B0", "Pepsi Soft Drink", "assets/pepsi.jpg", 40, "Pepsi", true, 150, "snacks & beverages", 5, {volume: "600ml"}, "Refreshing cola drink."),
-    new Product("C1D2E3F4G5", "Britannia Cake", "assets/cake.jpg", 30, "Britannia", true, 80, "snacks & beverages", 8, {flavor: "Vanilla", weight: "150g"}, "Soft and spongy cake."),
-    new Product("H6I7J8K9L0", "Tata Tea Gold", "assets/tea.jpg", 120, "Tata", true, 60, "snacks & beverages", 12, {weight: "500g"}, "Premium tea leaves."),
-    new Product("M1N2O3P4Q5", "Maggi Hot & Sweet Sauce", "assets/sauce.jpg", 50, "Nestlé", true, 100, "snacks & beverages", 15, {volume: "200ml"}, "Tangy and spicy sauce."),
-    new Product("R6S7T8U9V0", "Britannia Rusk", "assets/rusk.jpg", 25, "Britannia", true, 120, "snacks & beverages", 5, {weight: "200g"}, "Crispy and crunchy rusk."),
-    new Product("W1X2Y3Z4A5", "Coca-Cola Soft Drink", "assets/coca-cola.jpg", 40, "Coca-Cola", true, 150, "snacks & beverages", 10, {volume: "600ml"}, "Classic cola taste."),
-    new Product("B6C7D8E9F0", "Kurkure Snacks", "assets/kurkure.jpg", 20, "Kurkure", true, 100, "snacks & beverages", 8, {flavor: "Masala Munch", weight: "60g"}, "Crunchy and spicy snacks."),
-
-    // **Fruits & Vegetables**
-    new Product("A1B2C3D4E5", "Bananas", "assets/bananas.jpg", 40, "Local", true, 200, "fruits & vegetables", 0, {weight: "1kg"}, "Fresh and ripe bananas."),
-    new Product("F6G7H8I9J0", "Tomatoes", "assets/tomatoes.jpg", 30, "Local", true, 150, "fruits & vegetables", 5, {weight: "1kg"}, "Juicy and red tomatoes."),
-    new Product("K1L2M3N4O5", "Potatoes", "assets/potatoes.jpg", 25, "Local", true, 180, "fruits & vegetables", 10, {weight: "1kg"}, "Fresh and firm potatoes."),
-]
- 
-
-*/

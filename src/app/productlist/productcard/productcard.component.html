@@ -11,7 +11,10 @@
   <div class="card-body">
     <h5 class="card-title mb-1">{{ product.name }}</h5>
     <h6 class="text-muted mb-2">{{ product.brand }}</h6>
-    <p class="card-text mb-1">Price: <strong>₹{{ product.price }}</strong></p>
+    <p class="card-text mb-1">Price: <strong class="fs-5 text-danger">₹{{ (product.price - (product.price * (product.discount ?? 0) / 100)).toFixed(2) }} </strong>
+      <span class="card-text text-muted mb-1 text-decoration-line-through">₹{{ product.price }}</span>
+    </p>
+    
     <small class="card-text mb-1"
       [ngClass]="{'text-success': product.available, 'text-danger': !product.available}">
       {{ product.available ? 'Available' : 'Not Available' }}

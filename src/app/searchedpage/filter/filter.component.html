@@ -8,13 +8,13 @@
     </div>
 
     <!-- Category Checklist -->
-    <div class="mb-4" *ngIf="categories.length > 0">
+    <div class="mb-4" *ngIf="categories.length > 1">
         <label class="form-label fw-semibold">Category</label>
         <div class="overflow-auto" style="max-height: 150px;">
             <div *ngFor="let cat of categories" class="form-check">
                 <input class="form-check-input" type="checkbox" [checked]="filters.category?.includes(cat)"
                 (change)="toggleCategory(cat, $event)" id="cat-{{ cat }}" />
-                <label class="form-check-label" for="cat-{{ cat }}">{{ cat }}</label>
+                <label class="form-check-label" for="cat-{{ cat }}">{{ cat | titlecase }}</label>
             </div>
         </div>
     </div>
@@ -26,7 +26,7 @@
             <div *ngFor="let brand of brands" class="form-check">
                 <input class="form-check-input" type="checkbox" [checked]="filters.brand?.includes(brand)"
                 (change)="toggleBrand(brand, $event)" id="brand-{{ brand }}" />
-                <label class="form-check-label" for="brand-{{ brand }}">{{ brand }}</label>
+                <label class="form-check-label" for="brand-{{ brand }}">{{ brand | titlecase }}</label>
             </div>
         </div>
     </div>
@@ -57,6 +57,19 @@
             <input class="form-check-input" type="radio" name="availability" value="false"
                 [(ngModel)]="filters.availability" id="availOutStock" />
             <label class="form-check-label" for="availOutStock">Out of Stock</label>
+        </div>
+    </div>
+
+    <div *ngFor="let filter of objectKeys(dynamicFilters)">
+        <div *ngIf="dynamicFilters[filter][0]">
+            <label class="form-label fw-semibold">{{ filter | titlecase }}</label>
+            <div class="overflow-auto" style="max-height: 150px;">
+                <div *ngFor="let option of dynamicFilters[filter]" class="form-check">
+                    <input class="form-check-input" type="checkbox" [checked]="filters.filter?.includes(option)"
+                    (change)="toggleDynamicFilter(filter, option, $event)" id="{{filter}}-{{ option }}" />
+                    <label class="form-check-label" for="{{filter}}-{{ option }}">{{ option | titlecase }}</label>
+                </div>
+            </div>
         </div>
     </div>
 

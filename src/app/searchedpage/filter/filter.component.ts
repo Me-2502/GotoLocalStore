@@ -7,9 +7,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './filter.component.css'
 })
 export class FilterComponent {
-  @Input() categories: string[] = [];
-  @Input() brands: string[] = ['Apple', 'Dell', 'HP', 'Lenovo', 'Samsung'];
-  @Input() dynamicFilters: { [key: string]: string[] } = {};
+  objectKeys = Object.keys;
+  categories: string[] = [];
+  brands: string[] = [];
+  dynamicFilters: { [key: string]: string[] } = {};
 
   @Output() filtersChanged = new EventEmitter<any>();
 
@@ -54,7 +55,20 @@ export class FilterComponent {
       this.filters.brand.push(brand);
     else
       this.filters.brand = this.filters.brand.filter((b: any) => b !== brand);
-  }  
+  }
+
+  toggleDynamicFilter(key: string, value: string, event: any) {
+    const checked = event.target.checked;
+    if(!this.filters[key])
+      this.filters[key] = [];
+    if(checked)
+      this.filters[key].push(value);
+    else{
+      this.filters[key] = this.filters[key].filter((v: string) => v !== value);
+      if (this.filters[key].length === 0)
+        delete this.filters[key];
+    }
+  }
 
   toggleDynamicValue(key: string, value: string) {
     if(!this.filters.dynamic[key])
