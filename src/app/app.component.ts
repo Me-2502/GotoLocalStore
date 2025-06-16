@@ -5,8 +5,7 @@ import { User } from './Models/user';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  standalone: false,
-  styleUrl: './app.component.css'
+  standalone: false
 })
 export class AppComponent {
   title = 'ecommerce';

@@ -13,6 +13,7 @@ import { User } from '../Models/user';
   styleUrl: './productdetail.component.css'
 })
 export class ProductdetailComponent {
+  objectEntries = Object.entries;
   @Input() product!: Product;
   user: User = JSON.parse(localStorage.getItem('prevUser') as string);
   quantity: number = 1;
@@ -85,4 +86,10 @@ export class ProductdetailComponent {
     else if(this.dailyQuantity > 1)
       this.dailyQuantity--;
   }
+
+  formatKey(key: string) {
+    if (!key) return '';
+      const withSpaces = key.replace(/([a-z])([A-Z])/g, '$1 $2');
+    return withSpaces.charAt(0).toUpperCase() + withSpaces.slice(1);
+  }  
 }

@@ -32,12 +32,15 @@ export class SignupComponent {
 
   onSubmit(){
     this.newUser = this.signupForm.value;
-    console.log(this.newUser);
     if(this.users == undefined)
       this.users = [this.newUser];
     this.http.post('http://localhost:3000/user/create', this.newUser).subscribe((response: any) => {
       console.log(response);
       this.toastr.success('Successfully created account.', 'Success', { timeOut: 2000, closeButton: true });
+    }, error => {
+      console.log(error);
+      let errorMessage = error.error?.message || 'Failed to create account.';
+      this.toastr.error(errorMessage  , 'Error', { timeOut: 2000 , closeButton: true });
     });
     this.resetForm();
   }

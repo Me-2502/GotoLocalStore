@@ -114,11 +114,11 @@
       <!-- Specifications -->
       <div class="tab-pane fade" id="specifications" role="tabpanel">
         <h4>Specifications</h4>
-        <table class="table table-striped">
-          <!-- <tr *ngFor="let spec of product.specifications | keyvalue">
-            <th class="w-50">{{ spec.key }}</th>
-            <td>{{ spec.value }}</td>
-          </tr> -->
+        <table class="table table-striped" *ngIf="product.specifications">
+          <tr *ngFor="let spec of objectEntries(product.specifications[0])">
+            <th class="w-50">{{ formatKey(spec[0]) }}</th>
+            <td>{{ spec[1] ? spec[1] : '' | titlecase }}</td>
+          </tr>
         </table>
       </div>
   

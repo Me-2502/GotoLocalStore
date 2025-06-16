@@ -59,14 +59,14 @@ export class FilterComponent {
 
   toggleDynamicFilter(key: string, value: string, event: any) {
     const checked = event.target.checked;
-    if(!this.filters[key])
-      this.filters[key] = [];
+    if(!this.filters.dynamic[key])
+      this.filters.dynamic[key] = [];
     if(checked)
-      this.filters[key].push(value);
+      this.filters.dynamic[key].push(value);
     else{
-      this.filters[key] = this.filters[key].filter((v: string) => v !== value);
-      if (this.filters[key].length === 0)
-        delete this.filters[key];
+      this.filters.dynamic[key] = this.filters.dynamic[key].filter((v: string) => v !== value);
+      if(this.filters.dynamic[key].length === 0)
+        delete this.filters.dynamic[key];
     }
   }
 
@@ -78,9 +78,5 @@ export class FilterComponent {
       set.delete(value);
     else
       set.add(value);
-  }
-
-  isDynamicValueChecked(key: string, value: string): boolean {
-    return this.filters.dynamic[key]?.has(value);
   }
 }

@@ -87,10 +87,21 @@ app.get('/user/:email/:phone', (req, res) => {
     res.status(200).json(user);
 });
 
-app.post('/user/signup', (req, res) => {
+app.post('/user/create', (req, res) => {
     const { name, age, gender, address, phone, email, password, premium } = req.body;
     if(!name || !email || !phone || !password)
         return res.status(400).json({ message: 'Required fields are missing' });
+
+    if(name.trim().length < 2)
+        return res.status(400).json({ message: 'Invalid name' });
+    if(!/^\d{10}$/.test(phone))
+        return res.status(400).json({ message: 'Invalid phone number' });
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!emailRegex.test(email))
+        return res.status(400).json({ message: 'Invalid email address' });
+    if(password.length < 6)
+        return res.status(400).json({ message: 'Password must be at least 6 characters long' });
+    
     const existingUser = users.find((ele) => {return (ele.email == email || ele.phone == phone)});
     if(existingUser)
         return res.status(400).json({ message: "User already exists" });
@@ -342,7 +353,6 @@ app.delete('/users/:email/wishlist/:productId', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
-
 
 const products = [
     { id: "G1H2I3J4K5", name: "Tata Salt", imgUrl: "assets/salt.jpg", price: 20, brand: "Tata", available: true, inStock: 50, category: "groceries", discount: 0, otherFeatures: { weight: "1kg" }, description: "Tata Salt is India's most trusted and popular iodized salt brand, ensuring purity and essential nutrients for everyday cooking.", ratings: 4.5, numberOfRatings: 220, reviews: [

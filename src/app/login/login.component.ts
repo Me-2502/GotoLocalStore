@@ -44,8 +44,10 @@ export class LoginComponent {
         this.router.navigate(['home']);
         this.toastr.success('Successfully logged in.', 'Success', { timeOut: 2000, closeButton: true });
       }
-      else
+      else{
         this.toggleFailedLoginPopup();
+        this.toastr.error("Can't find user with given credentials.", 'Error', { timeOut: 2000, closeButton: true });
+      }
     });
   }
 

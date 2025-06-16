@@ -12,10 +12,8 @@
                     <!-- Name -->
                     <div class="mb-3">
                         <label for="name" class="form-label">Full Name</label>
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Name"
-                            [formControlName]="'name'" />
-                        <div class="text-danger small"
-                            *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Name" [formControlName]="'name'" />
+                        <div class="text-danger small" *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched">
                             *Name is required
                         </div>
                     </div>
@@ -25,8 +23,7 @@
                         <label for="email" class="form-label">E-mail</label>
                         <input type="email" id="email" name="email" class="form-control" placeholder="E-mail"
                             [formControlName]="'email'" />
-                        <div class="text-danger small"
-                            *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
+                        <div class="text-danger small" *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched">
                             *Valid email is required
                         </div>
                     </div>
@@ -36,8 +33,7 @@
                         <label for="phone" class="form-label">Phone Number</label>
                         <input type="tel" id="phone" name="phone" class="form-control" placeholder="Phone number"
                             [formControlName]="'phone'" />
-                        <div class="text-danger small"
-                            *ngIf="signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched">
+                        <div class="text-danger small" *ngIf="signupForm.get('phone')?.invalid && signupForm.get('phone')?.touched">
                             *Phone number is required
                         </div>
                     </div>
@@ -47,15 +43,14 @@
                         <label for="password" class="form-label">Password</label>
                         <input type="password" id="password" name="password" class="form-control" placeholder="Password"
                             [formControlName]="'password'" />
-                        <div class="text-danger small"
-                            *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
+                        <div class="text-danger small" *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched">
                             *Password is required
                         </div>
                     </div>
 
                     <!-- Buttons -->
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-success" [disabled]="signupForm.invalid">Sign Up</button>
+                        <button type="submit" class="btn btn-success" [disabled]="!signupForm.get('name')?.value || (!signupForm.get('email')?.value || !signupForm.get('phone')?.value) || !signupForm.get('password')?.value">Sign Up</button>
                         <button type="button" class="btn btn-outline-secondary" (click)="resetForm()">Cancel</button>
                     </div>
 
