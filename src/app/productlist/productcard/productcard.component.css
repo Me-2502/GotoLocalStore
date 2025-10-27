@@ -9,7 +9,6 @@
   transform: scale(1.01);
 }
 
-
 .discount-tag {
   position: absolute;
   top: 0;
@@ -25,6 +24,49 @@
 
 .product-image img {
   max-height: 180px;
-  width: auto;
+  width: 100%;
   object-fit: contain;
+}
+
+.product-image {
+  height: 170px;
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (max-width: 992px) {
+  .product-card {
+    max-width: 235px;
+    height: 85px;
+  }
+  .product-image img {
+    max-height: 130px;
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (max-width: 767px) {
+  .product-card {
+    max-width: 225px;
+    height: 80px;
+  }
+  .product-image img {
+    max-height: 120px;
+  }
+}
+
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575px) {
+  .product-card {
+    max-width: 180px;
+    height: 50px;
+  }
+  .unimportant {
+    display: none;
+  }
+  .product-image {
+    height: 100px;
+  }
+  .product-image img {
+    max-height: 100px;
+  }
 }

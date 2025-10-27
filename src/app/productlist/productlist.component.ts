@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, HostListener } from '@angular/core';
 import { Product } from '../Models/product';
 
 @Component({
@@ -20,37 +20,77 @@ export class ProductlistComponent {
   products!: Product[];
   filteredProducts: Product[] = [];
   http = inject(HttpClient);
-  currentPage = 0;
-  itemsPerPage = 4;
   pause = !this.isHorizontal;
+  isMobile = window.innerWidth <= 767;
+  currentPage = 1;
+  itemsPerPage = 10;
+  totalProducts = 0;
+  totalPages = 0;
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isMobile = window.innerWidth <= 767;
+  }
   
   ngOnInit(){
     this.loadProducts();
   }
 
-  loadProducts(filter: string = ''){
+  loadProducts(filter: string = '', page: number = 1){
     if(filter)
       this.filterText = filter;
-    if(this.productDetails)
-      this.http.get('http://localhost:3000/products?category=' + this.productDetails.category).subscribe((data: any) => {
-        this.products = data;
-        this.filteredProducts = this.products;
-      });
-    else if(this.filterText)
-      this.http.get('http://localhost:3000/products?filter=' + this.filterText).subscribe((data: any) => {
-        this.products = data.products;
-        this.filteredProducts = this.products;
-        this.filterOptions.emit({
-          brands: data.brand,
-          categories: data.category,
-          dynamicFilters: data.dynamicFilters
+    // if(this.productDetails)
+    //   this.http.get('http://localhost:3000/products?category=' + this.productDetails.category).subscribe((data: any) => {
+    //     this.products = data;
+    //     this.filteredProducts = this.products;
+    //   });
+    // else if(this.filterText)
+    //   this.http.get('http://localhost:3000/products?filter=' + this.filterText).subscribe((data: any) => {
+    //     this.products = data.products;
+    //     this.filteredProducts = this.products;
+    //     this.filterOptions.emit({
+    //       brands: data.brand,
+    //       categories: data.category,
+    //       dynamicFilters: data.dynamicFilters
+    //     });
+    //   });
+    // else
+    //   this.http.get('http://localhost:3000/products').subscribe((data: any) => {
+    //     this.products = data;
+    //     this.filteredProducts = this.products;
+    //   });
+    if (this.productDetails) {
+      this.http
+        .get(`http://localhost:3000/products?category=${this.productDetails.category}`).subscribe((data: any) => {
+          this.products = data.products;
+          this.filteredProducts = this.products;
         });
-      });
-    else
-      this.http.get('http://localhost:3000/products').subscribe((data: any) => {
-        this.products = data;
-        this.filteredProducts = this.products;
-      });
+    }
+    else if (this.filterText) {
+      this.http
+        .get(`http://localhost:3000/products?filter=${this.filterText}&page=${page}&limit=${this.itemsPerPage}`).subscribe((data: any) => {
+          this.products = data.products;
+          this.filteredProducts = this.products;
+          this.totalProducts = data.totalProducts;
+          this.totalPages = data.totalPages;
+          this.currentPage = data.currentPage;
+          this.filterOptions.emit({
+            brands: data.brand,
+            categories: data.category,
+            dynamicFilters: data.dynamicFilters,
+          });
+        });
+    }
+    else {
+      this.http
+        .get(`http://localhost:3000/products?page=${page}&limit=${this.itemsPerPage}`).subscribe((data: any) => {
+          this.products = data.products;
+          this.filteredProducts = this.products;
+          this.totalProducts = data.totalProducts;
+          this.totalPages = data.totalPages;
+          this.currentPage = data.currentPage;
+        });
+    }
   }
 
   onFilterChange(filters: any){
@@ -80,6 +120,20 @@ export class ProductlistComponent {
   }
 
   goToPage(page: number) {
+    if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
+    this.loadProducts(this.filterText, page);
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.goToPage(this.currentPage + 1);
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.goToPage(this.currentPage - 1);
+    }
   }
 }

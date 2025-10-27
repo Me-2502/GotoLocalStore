@@ -1,10 +1,22 @@
-<div class="card p-3 filter-sidebar">
-    <h5 class="mb-3">Filters</h5>
+<button class="filter-toggle d-md-none rounded-end" (click)="toggleSidebar()" [class.open]="isSidebarOpen" aria-label="Toggle filters">
+  <i class="bi" [ngClass]="isSidebarOpen ? 'bi-arrow-left' : 'bi-arrow-right'"></i>
+</button>
 
+<div class="overlay" *ngIf="isSidebarOpen" (click)="toggleSidebar()"></div>
+
+<!-- Sidebar Container -->
+<div class="filter-sidebar-container" [class.open]="isSidebarOpen">
+  <div class="card me-3 p-3 filter-sidebar" style="max-width: 300px;">
+    <h5 class="mb-3 d-flex justify-content-between align-items-center">
+      Filters
+      <!-- Close Button on mobile -->
+      <button class="btn-close d-md-none" (click)="toggleSidebar()"></button>
+    </h5>
+    
     <!-- Search -->
     <div class="mb-4">
         <label class="form-label fw-semibold">Search</label>
-        <input type="text" class="form-control" [(ngModel)]="filters.searchText" placeholder="Search by name" />
+        <input type="text" class="form-control" [(ngModel)]="filters.searchText" placeholder="Search by name" style="max-width: 250px;" />
     </div>
 
     <!-- Category Checklist -->
@@ -35,8 +47,8 @@
     <div class="mb-4">
         <label class="form-label fw-semibold">Price Range</label>
         <div class="d-flex gap-2">
-            <input type="number" class="form-control" placeholder="Min" [(ngModel)]="filters.minPrice" />
-            <input type="number" class="form-control" placeholder="Max" [(ngModel)]="filters.maxPrice" />
+            <input type="number" class="form-control" placeholder="Min" style="max-width: 120px;" [(ngModel)]="filters.minPrice" />
+            <input type="number" class="form-control" placeholder="Max" style="max-width: 120px;" [(ngModel)]="filters.maxPrice" />
         </div>
     </div>
 
@@ -60,6 +72,7 @@
         </div>
     </div>
 
+    <!-- Dynamic Filters -->
     <div *ngFor="let filter of objectKeys(dynamicFilters)">
         <div *ngIf="dynamicFilters[filter][0]">
             <label class="form-label fw-semibold">{{ filter | titlecase }}</label>
@@ -78,4 +91,5 @@
         <button class="btn btn-primary flex-fill" (click)="applyFilters()">Apply</button>
         <button class="btn btn-outline-secondary flex-fill" (click)="resetFilters()">Reset</button>
     </div>
+  </div>
 </div>

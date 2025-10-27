@@ -34,21 +34,59 @@
 
   <!-- Carousel -->
   <div id="productCarousel" class="slide p-2" [ngClass]="{'overflow-x-hidden': isHorizontal}" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="hover">
-    <div class="container mx-2" *ngIf="isHorizontal">
-      <!-- Scroll wrapper with hover pause -->
+    <div class="container mx-2" *ngIf="isHorizontal && !isMobile">
       <div class="position-relative" (mouseenter)="pause = true" (mouseleave)="pause = false || !isHorizontal">
-        <div class="d-flex" [ngClass]="groupedProducts().length % 2 ? 'scroll-track3' : 'scroll-track2'" [class.paused]="pause">
+        <div class="d-flex" [ngClass]="groupedProducts().length % 2 ? 'scroll-track3' : 'scroll-track2'" [class.paused]="pause" style="overflow-x: auto;" #scrollTrack>
           <div class="product-item mx-4" *ngFor="let product of groupedProducts()">
             <app-productcard [product]="product" (selected)="productClicked($event)"></app-productcard>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="container px-0 d-block d-md-none" *ngIf="isHorizontal && isMobile">
+      <div id="mobileCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+        <div class="carousel-inner">
+          <div class="carousel-item" *ngFor="let product of filteredProducts; let i = index" [class.active]="i === 0" >
+            <div class="p-3">
+              <app-productcard [product]="product" (selected)="productClicked($event)" ></app-productcard>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-indicators">
+          <button *ngFor="let product of filteredProducts; let i = index" type="button" data-bs-target="#mobileCarousel"
+          [attr.data-bs-slide-to]="i" [class.active]="i === 0" [attr.aria-current]="i === 0 ? 'true' : null" [attr.aria-label]="'Slide ' + (i + 1)" ></button>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mobileCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mobileCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
     
-    <div *ngIf="!isHorizontal" class="product-list row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-      <div *ngFor="let product of filteredProducts" class="product-item col p-4">
+    <div *ngIf="!isHorizontal" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-2" style="gap: 20px;">
+      <div *ngFor="let product of filteredProducts" class="product-item col p-2 d-flex justify-content-center">
         <app-productcard [product]="product" (selected)="productClicked($event)"></app-productcard>
       </div>
     </div>
+    <div *ngIf="totalPages > 1 && !isHorizontal" class="d-flex justify-content-center align-items-center flex-wrap mt-4">
+      <button class="btn btn-outline-primary mx-1 mb-2" [disabled]="currentPage === 1" (click)="prevPage()">< Prev</button>
+      <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+        <button class="btn mx-1 mb-2"
+          [ngClass]="{
+            'btn-primary': currentPage === i + 1,
+            'btn-outline-primary': currentPage !== i + 1
+          }"
+          (click)="goToPage(i + 1)">
+          {{ i + 1 }}
+        </button>
+      </ng-container>
+      <button class="btn btn-outline-primary mx-1 mb-2" [disabled]="currentPage === totalPages" (click)="nextPage()">Next ></button>
+    </div>
+
   </div>
 </div>

@@ -1,19 +1,19 @@
-<nav class="navbar navbar-expand-lg navbar-light p-4 gap-2 border-bottom mb-4 shadow-sm">
+<!-- <nav class="navbar navbar-expand-lg navbar-light p-4 gap-2 border-bottom mb-4 shadow-sm flex-justify w-100" style="min-width: 300px;">
 
   <div class="d-flex align-items-center">
     <a routerLink="/home"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlqz0oQTtU8vdv-nPjNW1gHIidDWit3ndMgQ&s"
       alt="Product Image" class="img-fluid" style="height: 50px; min-width: 150px;"></a>
   </div>
 
-  <div class="d-flex flex-grow-1 mx-2 justify-content-end" style="min-width: 450px; max-width: 1200px;">
-    <form class="input-group w-75" (submit)="searchProduct()">
+  <div class="d-flex flex-grow-1 mx-2 justify-content-end flex-wrap w-100 w-md-auto justify-content-md-end justify-content-center">
+    <form class="input-group w-90 w-md-75" (submit)="searchProduct()">
       <input type="text" class="form-control" placeholder="What do you want to buy today?"
         aria-label="Search for products" [(ngModel)]="searchedText" name="search">
       <button type="submit" class="btn btn-primary" [disabled]="!searchedText.trim()">🔍</button>
     </form>
   </div>
 
-  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+  <button class="navbar-toggler ms-auto me-2" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
       aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
   </button>
@@ -25,4 +25,77 @@
     <div><a class="btn border-0 mb-0" [routerLink]="user.name ? ['/user'] : ['/login']" routerLinkActive="router-link-active" >{{ user.name ? user.name : 'Login' }}</a></div>
   </div>
 
+</nav> -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm py-3 px-3 px-md-4">
+  <div class="container-fluid d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
+
+    <!-- Top Row (Logo + Toggler) -->
+    <div class="d-flex justify-content-between align-items-center w-100 mb-2 mb-lg-0">
+      <a class="navbar-brand d-flex align-items-center" routerLink="/home">
+        <img 
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlqz0oQTtU8vdv-nPjNW1gHIidDWit3ndMgQ&s" 
+          alt="Product Image" 
+          class="img-fluid" 
+          style="height: 45px; min-width: 120px; object-fit: contain;">
+      </a>
+
+      <button 
+        class="navbar-toggler border-0" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#mainNavbar" 
+        aria-controls="mainNavbar" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="w-100 mb-3 mb-lg-0">
+      <form 
+        class="d-flex justify-content-center" 
+        (submit)="searchProduct()">
+        <div class="input-group w-100 w-md-75 w-lg-50">
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="What do you want to buy today?"
+            aria-label="Search for products"
+            [(ngModel)]="searchedText" 
+            name="search">
+          <button 
+            type="submit" 
+            class="btn btn-primary" 
+            [disabled]="!searchedText.trim()">🔍</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Collapsible Navigation Links -->
+    <div 
+      class="collapse navbar-collapse justify-content-end w-100 w-lg-auto mt-2 mt-lg-0" 
+      id="mainNavbar">
+      <ul class="navbar-nav ms-auto gap-2 text-center text-lg-start">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/cart">Cart</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/order">Orders</a>
+        </li>
+        <li class="nav-item">
+          <a 
+            class="nav-link" 
+            [routerLink]="user.name ? ['/user'] : ['/login']">
+            {{ user.name ? user.name : 'Login' }}
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
 </nav>

@@ -1,6 +1,6 @@
 <app-search [searchedText]="searchFor" (search)="changeSearchText($event)"></app-search>
 
-<div class="d-flex p-4 gap-4">
+<div class="d-flex ps-4 py-2">
     <app-filter (filtersChanged)="changeList($event)"></app-filter>
     <app-productlist [filterText]="searchFor" [isHorizontal]="false" (filterOptions)="setFilterOptions($event)"></app-productlist>
 </div>

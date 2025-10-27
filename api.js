@@ -120,36 +120,110 @@ app.post('/user/login', (req, res) => {
         res.status(404).json();
 });
 
+// app.get('/products', (req, res) => {
+//     if(req.query.category != undefined)
+//         res.json(products.filter((product) => { return product.category == req.query.category}));
+//     else if(req.query.filter != undefined){
+//         filterText = req.query.filter.toLowerCase();
+//         let category = new Set([]);
+//         let brand = new Set([]);
+//         let rating = new Set([]);
+//         let discount = new Set([]);
+//         let filteredProducts = products.filter((product) => Object.values(product).some(value => {
+//             if(value?.toString().toLowerCase().includes(filterText)){
+//                 brand.add(product.brand);
+//                 category.add(product.category);
+//                 if(product.ratings)
+//                     rating.add(product.rating);
+//                 if (typeof product.discount === 'number'){
+//                     let bucketStart = Math.floor(product.discount / 10) * 10;
+//                     let bucketEnd = bucketStart + 10;
+//                     discount.add(`${bucketStart}% - ${bucketEnd}%`);
+//                 }
+//                 else
+//                     discount.add('none');
+//                 return value;
+//             }
+//         }));
+//         let dynamicFilters = { 'rating': [...rating], 'discount': [...discount] };
+//         res.json({products: filteredProducts, brand: [...brand], category: [...category], dynamicFilters: dynamicFilters});
+//     }
+//     else
+//         res.json(products);
+// });
+
 app.get('/products', (req, res) => {
-    if(req.query.category != undefined)
-        res.json(products.filter((product) => { return product.category == req.query.category}));
-    else if(req.query.filter != undefined){
-        filterText = req.query.filter.toLowerCase();
+    let page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
+    let startIndex = (page - 1) * limit;
+    let endIndex = page * limit;
+    let resultProducts = [];
+    let totalProducts = 0;
+
+    // Category filter
+    if (req.query.category !== undefined && req.query.filter === undefined)
+        return res.json({
+            products: products.filter((product) => product.category == req.query.category).slice(startIndex, endIndex),
+            totalProducts,
+            currentPage: page,
+            totalPages: Math.ceil(totalProducts / limit),
+        });
+
+    // Text filter with dynamic filters
+    else if (req.query.filter !== undefined) {
+        let filterText = req.query.filter.toLowerCase();
         let category = new Set([]);
         let brand = new Set([]);
         let rating = new Set([]);
         let discount = new Set([]);
-        let filteredProducts = products.filter((product) => Object.values(product).some(value => {
-            if(value?.toString().toLowerCase().includes(filterText)){
-                brand.add(product.brand);
-                category.add(product.category);
-                if(product.ratings)
-                    rating.add(product.rating);
-                if (typeof product.discount === 'number'){
-                    let bucketStart = Math.floor(product.discount / 10) * 10;
-                    let bucketEnd = bucketStart + 10;
-                    discount.add(`${bucketStart}% - ${bucketEnd}%`);
+        let filteredProducts = products.filter((product) =>
+            Object.values(product).some((value) => {
+                if (value?.toString().toLowerCase().includes(filterText)){
+                    brand.add(product.brand);
+                    category.add(product.category);
+                    if (product.ratings)
+                        rating.add(product.rating);
+                    if (typeof product.discount === "number"){
+                        let bucketStart = Math.floor(product.discount / 10) * 10;
+                        let bucketEnd = bucketStart + 10;
+                        discount.add(`${bucketStart}% - ${bucketEnd}%`);
+                    }
+                    else
+                        discount.add("none");
+                    return true;
                 }
-                else
-                    discount.add('none');
-                return value;
-            }
-        }));
-        let dynamicFilters = { 'rating': [...rating], 'discount': [...discount] };
-        res.json({products: filteredProducts, brand: [...brand], category: [...category], dynamicFilters: dynamicFilters});
+                return false;
+            })
+        );
+        totalProducts = filteredProducts.length;
+
+        const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+        let dynamicFilters = {
+            rating: [...rating],
+            discount: [...discount],
+        };
+        return res.json({
+            products: paginatedProducts,
+            brand: [...brand],
+            category: [...category],
+            dynamicFilters: dynamicFilters,
+            totalProducts,
+            currentPage: page,
+            totalPages: Math.ceil(totalProducts / limit),
+        });
     }
+    // No filter — return all products
     else
-        res.json(products);
+        resultProducts = products;
+
+    totalProducts = resultProducts.length;
+    const paginatedProducts = resultProducts.slice(startIndex, endIndex);
+    res.json({
+        products: paginatedProducts,
+        totalProducts,
+        currentPage: page,
+        totalPages: Math.ceil(totalProducts / limit),
+    });
 });
 
 app.get('/products/:id', (req, res) => {

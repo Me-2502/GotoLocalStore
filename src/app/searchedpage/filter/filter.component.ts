@@ -11,9 +11,6 @@ export class FilterComponent {
   categories: string[] = [];
   brands: string[] = [];
   dynamicFilters: { [key: string]: string[] } = {};
-
-  @Output() filtersChanged = new EventEmitter<any>();
-
   filters: any = {
     searchText: '',
     category: [],
@@ -23,6 +20,12 @@ export class FilterComponent {
     maxPrice: null,
     dynamic: {},
   };
+  isSidebarOpen = false;
+  @Output() filtersChanged = new EventEmitter<any>();
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
 
   applyFilters() {
     this.filtersChanged.emit(this.filters);

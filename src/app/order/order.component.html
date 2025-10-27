@@ -20,7 +20,7 @@
     <!-- Orders List -->
     <div *ngIf="orders.length > 0; else noOrders" style="min-height: 80vh;">
       <div class="row g-4">
-        <div class="col-6" *ngFor="let order of filteredOrderedProducts; let i = index">
+        <div class="col-12 col-md-6" *ngFor="let order of filteredOrderedProducts; let i = index">
           <div class="card shadow-sm">
             <div class="card-body">
               <!-- Order Header -->
@@ -36,7 +36,7 @@
   
               <!-- Product Details -->
               <div class="row g-3 m-2">
-                <div class="col-12 d-flex flex-column flex-md-row align-items-start">
+                <div class="col-12 d-flex flex-column flex-md-row">
                   <div class="text-center mb-3 mb-md-0 me-md-4">
                     <img [src]="order.imgUrl" class="img-fluid mx-4 border rounded" alt="{{ order.name }}" style="max-width: 200px; height: auto; object-fit: contain;" />
                   </div>
