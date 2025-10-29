@@ -68,7 +68,11 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'https://gotolocalstore.netlify.app',
+  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
+  credentials: true
+}));
 
 const users = [
     new User("Alice Smith", 28, "Female", "123 Maple Street, NY", 1234567890, "alice@example.com", 'changeme@123', true),
@@ -506,3 +510,5 @@ const products = [
     new Product("B6C7D8E9F0", "Broom Stick", "assets/broomstick.webp", 40, "Generic", true, 150, "household", 0, {material: "Plastic"}, "Durable broom for cleaning."),
     new Product("H1H2I3J4K5", "Trash Bags", "assets/trashbags.webp", 20, "Generic", true, 200, "household", 5, {size: "Medium"}, "Strong and leak-proof."),
 ];
+
+module.exports = app;
