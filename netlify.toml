@@ -1,0 +1,15 @@
+# ==============================
+# Netlify Configuration for Angular
+# ==============================
+
+[build]
+  # Since angular.json is in the root, leave base empty
+  base = ""
+  command = "ng build --configuration production"
+  publish = "dist/ecommerce"
+
+# Redirect all routes to index.html (for Angular routing to work)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
